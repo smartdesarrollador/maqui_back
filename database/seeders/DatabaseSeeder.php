@@ -66,7 +66,22 @@ class DatabaseSeeder extends Seeder
             PostCategoryTableSeeder::class,
             Categoria1Seeder::class,
             Tabla1Seeder::class,
-            
+            ClienteSeeder::class,
+            MarcaSeeder::class,
+            ModeloSeeder::class,
+            TipoMotoSeeder::class,
+            motoSeeder::class,
+            TipoAccesorioSeeder::class,
+            AccesorioSeeder::class,
+            AccesorioMotoSeeder::class,
+            TipoRepuestoSeeder::class,
+            RepuestoSeeder::class,
+            RepuestoMotoSeeder::class,
+            CotizacionSeeder::class,
+            CotizacionAccesorioSeeder::class,
+            CotizacionRepuestoSeeder::class,
+            FinanciamientoSeeder::class,
+            ResenaSeeder::class,
         ]);
     }
 }
