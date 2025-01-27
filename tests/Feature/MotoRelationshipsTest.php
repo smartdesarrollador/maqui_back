@@ -12,6 +12,7 @@ use App\Models\Repuesto;
 use App\Models\Resena;
 use App\Models\Cotizacion;
 use App\Models\ClienteModel;
+use Illuminate\Support\Facades\Log;
 
 class MotoRelationshipsTest extends TestCase
 {
@@ -131,13 +132,102 @@ class MotoRelationshipsTest extends TestCase
 
         $this->assertNotNull($moto, 'No se encontró ninguna moto.');
 
+        // Convertir a array para debug
+        $motoArray = $moto->toArray();
+
         // Verificar estructura completa
-        $this->assertArrayHasKey('modelo', $moto->toArray());
+        $this->assertArrayHasKey('modelo', $motoArray);
         $this->assertArrayHasKey('marca', $moto->modelo->toArray());
-        $this->assertArrayHasKey('tipoMoto', $moto->toArray());
-        $this->assertArrayHasKey('accesorios', $moto->toArray());
-        $this->assertArrayHasKey('repuestos', $moto->toArray());
-        $this->assertArrayHasKey('resenas', $moto->toArray());
-        $this->assertArrayHasKey('cotizaciones', $moto->toArray());
+        $this->assertArrayHasKey('tipo_moto', $motoArray, 'La relación tipo_moto no existe');
+        $this->assertArrayHasKey('accesorios', $motoArray);
+        $this->assertArrayHasKey('repuestos', $motoArray);
+        $this->assertArrayHasKey('resenas', $motoArray);
+        $this->assertArrayHasKey('cotizaciones', $motoArray);
+
+        // Verificar que las relaciones tienen la estructura correcta
+        $this->assertIsArray($motoArray['tipo_moto']);
+        $this->assertIsArray($motoArray['accesorios']);
+        $this->assertIsArray($motoArray['repuestos']);
+        $this->assertIsArray($motoArray['resenas']);
+        $this->assertIsArray($motoArray['cotizaciones']);
+    }
+
+    /**
+     * Test relaciones del Cliente
+     */
+    public function test_cliente_relationships()
+    {
+        $cliente = ClienteModel::has('resenas')->first();
+        
+        $this->assertNotNull($cliente, 'No se encontró ningún cliente con reseñas.');
+        $this->assertInstanceOf(Resena::class, $cliente->resenas->first());
+        
+        // Probar relación con cotizaciones
+        $cliente = ClienteModel::has('cotizaciones')->first();
+        $this->assertNotNull($cliente, 'No se encontró ningún cliente con cotizaciones.');
+        $this->assertInstanceOf(Cotizacion::class, $cliente->cotizaciones->first());
+        
+        // Probar relación con motos reseñadas
+        $cliente = ClienteModel::has('motosResenadas')->first();
+        $this->assertNotNull($cliente, 'No se encontró ningún cliente con motos reseñadas.');
+        $this->assertInstanceOf(Moto::class, $cliente->motosResenadas->first());
+        
+        // Probar relación con motos cotizadas
+        $cliente = ClienteModel::has('motosCotizadas')->first();
+        $this->assertNotNull($cliente, 'No se encontró ningún cliente con motos cotizadas.');
+        $this->assertInstanceOf(Moto::class, $cliente->motosCotizadas->first());
+    }
+
+    /**
+     * Test estructura completa de relaciones del Cliente
+     */
+    public function test_full_cliente_relationship_structure()
+    {
+        $cliente = ClienteModel::with([
+            'resenas.moto',
+            'cotizaciones.moto',
+            'motosResenadas',
+            'motosCotizadas'
+        ])->first();
+
+        $this->assertNotNull($cliente, 'No se encontró ningún cliente.');
+
+        $clienteArray = $cliente->toArray();
+
+        // Verificar estructura completa
+        $this->assertArrayHasKey('resenas', $clienteArray);
+        $this->assertArrayHasKey('cotizaciones', $clienteArray);
+        $this->assertArrayHasKey('motos_resenadas', $clienteArray);
+        $this->assertArrayHasKey('motos_cotizadas', $clienteArray);
+
+        // Verificar que las relaciones tienen la estructura correcta
+        $this->assertIsArray($clienteArray['resenas']);
+        $this->assertIsArray($clienteArray['cotizaciones']);
+        $this->assertIsArray($clienteArray['motos_resenadas']);
+        $this->assertIsArray($clienteArray['motos_cotizadas']);
+
+        // Verificar relaciones anidadas
+        if (!empty($clienteArray['resenas'])) {
+            $this->assertArrayHasKey('moto', $clienteArray['resenas'][0]);
+        }
+        if (!empty($clienteArray['cotizaciones'])) {
+            $this->assertArrayHasKey('moto', $clienteArray['cotizaciones'][0]);
+        }
+    }
+
+    /**
+     * Test relaciones inversas con Cliente
+     */
+    public function test_inverse_cliente_relationships()
+    {
+        // Probar relación inversa desde Reseña
+        $resena = Resena::with('cliente')->first();
+        $this->assertNotNull($resena, 'No se encontró ninguna reseña.');
+        $this->assertInstanceOf(ClienteModel::class, $resena->cliente);
+
+        // Probar relación inversa desde Cotización
+        $cotizacion = Cotizacion::with('cliente')->first();
+        $this->assertNotNull($cotizacion, 'No se encontró ninguna cotización.');
+        $this->assertInstanceOf(ClienteModel::class, $cotizacion->cliente);
     }
 } 

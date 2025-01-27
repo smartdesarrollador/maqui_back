@@ -35,6 +35,8 @@ use App\Http\Controllers\Tabla1Controller;
 
 use Illuminate\Support\Facades\Mail;
 
+use App\Http\Controllers\motos\clientesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -177,6 +179,16 @@ Route::post('tabla1/{id}/updatewithpost', [Tabla1Controller::class, 'updateWithP
 /* Route::get('categorias-con-registros', [Tabla1Controller::class, 'getCategoriasConRegistros']); */
 
 Route::get('/categorias-con-registros', [Categoria1Controller::class, 'getCategoriasConRegistros']);
+
+
+// Rutas para motos
+
+// Rutas para clientes
+Route::get('clientes', [clientesController::class, 'index']);
+Route::get('clientes/{id}', [clientesController::class, 'show']);
+Route::post('clientes', [clientesController::class, 'store']);
+Route::put('clientes/{id}', [clientesController::class, 'update']);
+Route::delete('clientes/{id}', [clientesController::class, 'destroy']);
 
 
 
