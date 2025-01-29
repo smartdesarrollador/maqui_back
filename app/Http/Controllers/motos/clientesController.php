@@ -18,11 +18,12 @@ class clientesController extends Controller
     {
         try {
             // Validar parámetros de paginación y ordenamiento
+            // Validar los parámetros de la solicitud
             $validator = Validator::make($request->all(), [
-                'per_page' => 'integer|min:1|max:100',
-                'page' => 'integer|min:1',
-                'order_by' => 'string|in:nombre,apellido,email,created_at',
-                'order_direction' => 'string|in:asc,desc'
+                'per_page' => 'integer|min:1|max:100',      // Número de registros por página (1-100)
+                'page' => 'integer|min:1',                  // Número de página actual (mínimo 1)
+                'order_by' => 'string|in:nombre,apellido,email,created_at',  // Campo para ordenar
+                'order_direction' => 'string|in:asc,desc'   // Dirección del ordenamiento
             ]);
 
             if ($validator->fails()) {
@@ -71,28 +72,24 @@ class clientesController extends Controller
             $clientes = $query->paginate($perPage, ['*'], 'page', $page);
             
             return response()->json([
-                'success' => true,
-                'message' => 'Clientes obtenidos exitosamente',
-                'data' => [
-                    'clientes' => $clientes->items(),
-                    'pagination' => [
-                        'total_items' => $clientes->total(),
-                        'per_page' => $clientes->perPage(),
-                        'current_page' => $clientes->currentPage(),
-                        'last_page' => $clientes->lastPage(),
-                        'from' => $clientes->firstItem(),
-                        'to' => $clientes->lastItem(),
-                        'previous_page' => $clientes->previousPageUrl(),
-                        'next_page' => $clientes->nextPageUrl(),
-                        'has_more_pages' => $clientes->hasMorePages(),
-                    ],
-                    'filters' => [
-                        'search' => $request->search ?? null,
-                        'email' => $request->email ?? null,
-                        'tipo_documento' => $request->tipo_documento ?? null,
-                        'order_by' => $orderBy,
-                        'order_direction' => $orderDirection
-                    ]
+                'clientes' => $clientes->items(),
+                'pagination' => [
+                    'total_items' => $clientes->total(),
+                    'per_page' => $clientes->perPage(), 
+                    'current_page' => $clientes->currentPage(),
+                    'last_page' => $clientes->lastPage(),
+                    'from' => $clientes->firstItem(),
+                    'to' => $clientes->lastItem(),
+                    'previous_page' => $clientes->previousPageUrl(),
+                    'next_page' => $clientes->nextPageUrl(),
+                    'has_more_pages' => $clientes->hasMorePages(),
+                ],
+                'filters' => [
+                    'search' => $request->search ?? null,
+                    'email' => $request->email ?? null,
+                    'tipo_documento' => $request->tipo_documento ?? null,
+                    'order_by' => $orderBy,
+                    'order_direction' => $orderDirection
                 ]
             ], 200);
         } catch (\Exception $e) {
@@ -165,8 +162,18 @@ class clientesController extends Controller
             if ($request->hasFile('imagen')) {
                 $imagen = $request->file('imagen');
                 $nombreImagen = time() . '_' . $imagen->getClientOriginalName();
-                $path = $imagen->storeAs('public/clientes', $nombreImagen);
-                $datos['imagen'] = Storage::url($path);
+                
+                // Crear el directorio si no existe
+                $path = public_path('assets/clientes');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                
+                // Mover la imagen directamente a public/assets/clientes
+                $imagen->move($path, $nombreImagen);
+                
+                // Guardar la ruta relativa en la base de datos
+                $datos['imagen'] = '/assets/clientes/' . $nombreImagen;
             }
 
             $cliente = ClienteModel::create($datos);
