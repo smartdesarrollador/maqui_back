@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Controllers\motos\clientesController;
 use App\Http\Controllers\motos\TipoMotoController;
+use App\Http\Controllers\motos\MotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -198,5 +199,11 @@ Route::post('tipos-motos', [TipoMotoController::class, 'store']);
 Route::put('tipos-motos/{id}', [TipoMotoController::class, 'update']);
 Route::delete('tipos-motos/{id}', [TipoMotoController::class, 'destroy']);
 
+// Rutas para motos
+Route::get('motos', [MotoController::class, 'index']);
+Route::get('motos/{id}', [MotoController::class, 'show']);
+Route::post('motos', [MotoController::class, 'store']);
+Route::put('motos/{id}', [MotoController::class, 'update']);
+Route::delete('motos/{id}', [MotoController::class, 'destroy']);
 
 
