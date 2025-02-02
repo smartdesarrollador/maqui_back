@@ -112,7 +112,7 @@ class MotoController extends Controller
                 'potencia' => 'required|string|max:255',
                 'arranque' => 'required|string|max:255',
                 'transmision' => 'required|string|max:255',
-                'capacidad_tanque' => 'required|string|max:255',
+                'capacidad_tanque' => 'required|regex:/^\d*\.?\d+$/|max:255',
                 'peso_neto' => 'required|numeric|min:0',
                 'carga_util' => 'required|numeric|min:0',
                 'peso_bruto' => 'required|numeric|min:0',
