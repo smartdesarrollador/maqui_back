@@ -101,17 +101,32 @@ class MotoController extends Controller
             $validator = Validator::make($request->all(), [
                 'modelo_id' => 'required|exists:modelos,id_modelo',
                 'tipo_moto_id' => 'required|exists:tipo_motos,id_tipo_moto',
-                'año' => 'required|integer',
-                'precio_base' => 'required|numeric',
-                'color' => 'required|string',
-                'stock' => 'required|integer',
+                'año' => 'required|integer|min:1900',
+                'precio_base' => 'required|numeric|min:0',
+                'color' => 'required|string|max:255',
+                'stock' => 'required|integer|min:0',
                 'descripcion' => 'required|string',
                 'imagen' => 'required|string',
-                'cilindrada' => 'required|string',
-                'motor' => 'required|string',
-                'potencia' => 'required|string',
-                'arranque' => 'required|string',
-                'transmision' => 'required|string'
+                'cilindrada' => 'required|string|max:255',
+                'motor' => 'required|string|max:255',
+                'potencia' => 'required|string|max:255',
+                'arranque' => 'required|string|max:255',
+                'transmision' => 'required|string|max:255',
+                'capacidad_tanque' => 'required|string|max:255',
+                'peso_neto' => 'required|numeric|min:0',
+                'carga_util' => 'required|numeric|min:0',
+                'peso_bruto' => 'required|numeric|min:0',
+                'largo' => 'required|numeric|min:0',
+                'ancho' => 'required|numeric|min:0',
+                'alto' => 'required|numeric|min:0',
+                'neumatico_delantero' => 'required|string|max:255',
+                'neumatico_posterior' => 'required|string|max:255',
+                'freno_delantero' => 'required|string|max:255',
+                'freno_posterior' => 'required|string|max:255',
+                'cargador_usb' => 'boolean',
+                'luz_led' => 'boolean',
+                'alarma' => 'boolean',
+                'bluetooth' => 'boolean'
             ]);
 
             if ($validator->fails()) {
@@ -122,9 +137,16 @@ class MotoController extends Controller
                 ], 422);
             }
 
+            // Asegurarse de que los campos booleanos se conviertan a 0 o 1
+            $data = $request->all();
+            $booleanFields = ['cargador_usb', 'luz_led', 'alarma', 'bluetooth'];
+            foreach ($booleanFields as $field) {
+                $data[$field] = isset($data[$field]) && $data[$field] ? 1 : 0;
+            }
+
             DB::beginTransaction();
             
-            $moto = Moto::create($request->all());
+            $moto = Moto::create($data);
             
             DB::commit();
 
@@ -137,6 +159,8 @@ class MotoController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error al crear moto: ' . $e->getMessage());
+            Log::error('Stack trace: ' . $e->getTraceAsString());
+            
             return response()->json([
                 'status' => false,
                 'message' => 'Error al crear la moto',
