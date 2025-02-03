@@ -98,6 +98,8 @@ class MotoController extends Controller
     public function store(Request $request)
     {
         try {
+            Log::info('Recibiendo request para crear moto:', $request->all());
+            
             $validator = Validator::make($request->all(), [
                 'modelo_id' => 'required|exists:modelos,id_modelo',
                 'tipo_moto_id' => 'required|exists:tipo_motos,id_tipo_moto',
@@ -106,7 +108,7 @@ class MotoController extends Controller
                 'color' => 'required|string|max:255',
                 'stock' => 'required|integer|min:0',
                 'descripcion' => 'required|string',
-                'imagen' => 'required|string',
+                'imagen' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'cilindrada' => 'required|string|max:255',
                 'motor' => 'required|string|max:255',
                 'potencia' => 'required|string|max:255',
@@ -130,6 +132,7 @@ class MotoController extends Controller
             ]);
 
             if ($validator->fails()) {
+                Log::error('Validación fallida:', $validator->errors()->toArray());
                 return response()->json([
                     'status' => false,
                     'message' => 'Error de validación',
@@ -146,6 +149,30 @@ class MotoController extends Controller
 
             DB::beginTransaction();
             
+            if ($request->hasFile('imagen')) {
+                Log::info('Procesando imagen:', [
+                    'nombre_original' => $request->file('imagen')->getClientOriginalName(),
+                    'mime_type' => $request->file('imagen')->getMimeType(),
+                    'tamaño' => $request->file('imagen')->getSize()
+                ]);
+                $image = $request->file('imagen');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                
+                // Crear el directorio si no existe
+                $path = public_path('assets/motos');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                
+                // Mover la imagen al directorio
+                $image->move($path, $imageName);
+                
+                // Guardar la ruta relativa en la base de datos
+                $data['imagen'] = 'assets/motos/' . $imageName;
+            } else {
+                Log::error('No se encontró archivo de imagen en la request');
+            }
+            
             $moto = Moto::create($data);
             
             DB::commit();
@@ -158,8 +185,11 @@ class MotoController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al crear moto: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
+            Log::error('Error al crear moto:', [
+                'mensaje' => $e->getMessage(),
+                'linea' => $e->getLine(),
+                'archivo' => $e->getFile()
+            ]);
             
             return response()->json([
                 'status' => false,
@@ -219,7 +249,7 @@ class MotoController extends Controller
                 'color' => 'string',
                 'stock' => 'integer',
                 'descripcion' => 'string',
-                'imagen' => 'string',
+                'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'cilindrada' => 'string',
                 'motor' => 'string',
                 'potencia' => 'string',
@@ -238,7 +268,32 @@ class MotoController extends Controller
             DB::beginTransaction();
 
             $moto = Moto::findOrFail($id);
-            $moto->update($request->all());
+            $data = $request->all();
+
+            // Procesar la imagen si se proporciona una nueva
+            if ($request->hasFile('imagen')) {
+                $image = $request->file('imagen');
+                $imageName = time() . '_' . $image->getClientOriginalName();
+                
+                // Crear el directorio si no existe
+                $path = public_path('assets/motos');
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                
+                // Eliminar la imagen anterior si existe
+                if ($moto->imagen && file_exists(public_path($moto->imagen))) {
+                    unlink(public_path($moto->imagen));
+                }
+                
+                // Mover la nueva imagen al directorio
+                $image->move($path, $imageName);
+                
+                // Actualizar la ruta de la imagen en los datos
+                $data['imagen'] = 'assets/motos/' . $imageName;
+            }
+
+            $moto->update($data);
 
             DB::commit();
 

@@ -39,7 +39,7 @@ use App\Http\Controllers\motos\clientesController;
 use App\Http\Controllers\motos\TipoMotoController;
 use App\Http\Controllers\motos\MotoController;
 use App\Http\Controllers\motos\ModeloController;
-
+use App\Http\Controllers\motos\CotizacionController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -213,4 +213,11 @@ Route::get('modelos/{id}', [ModeloController::class, 'show']);
 Route::post('modelos', [ModeloController::class, 'store']);
 Route::put('modelos/{id}', [ModeloController::class, 'update']);
 Route::delete('modelos/{id}', [ModeloController::class, 'destroy']);
+
+// Rutas para cotizaciones
+Route::get('cotizaciones', [CotizacionController::class, 'index']);
+Route::post('cotizaciones', [CotizacionController::class, 'store']);
+Route::get('cotizaciones/{id}', [CotizacionController::class, 'show']);
+Route::put('cotizaciones/{id}', [CotizacionController::class, 'update']);
+Route::delete('cotizaciones/{id}', [CotizacionController::class, 'destroy']);
 
