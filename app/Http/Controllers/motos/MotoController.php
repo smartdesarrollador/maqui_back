@@ -241,6 +241,8 @@ class MotoController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            Log::info('Recibiendo request para actualizar moto:', $request->all());
+
             $validator = Validator::make($request->all(), [
                 'modelo_id' => 'exists:modelos,id_modelo',
                 'tipo_moto_id' => 'exists:tipo_motos,id_tipo_moto',
@@ -254,10 +256,26 @@ class MotoController extends Controller
                 'motor' => 'string',
                 'potencia' => 'string',
                 'arranque' => 'string',
-                'transmision' => 'string'
+                'transmision' => 'string',
+                'capacidad_tanque' => 'regex:/^\d*\.?\d+$/',
+                'peso_neto' => 'numeric',
+                'carga_util' => 'numeric',
+                'peso_bruto' => 'numeric',
+                'largo' => 'numeric',
+                'ancho' => 'numeric',
+                'alto' => 'numeric',
+                'neumatico_delantero' => 'string',
+                'neumatico_posterior' => 'string',
+                'freno_delantero' => 'string',
+                'freno_posterior' => 'string',
+                'cargador_usb' => 'boolean',
+                'luz_led' => 'boolean',
+                'alarma' => 'boolean',
+                'bluetooth' => 'boolean'
             ]);
 
             if ($validator->fails()) {
+                Log::error('Validación fallida:', $validator->errors()->toArray());
                 return response()->json([
                     'status' => false,
                     'message' => 'Error de validación',
@@ -270,8 +288,22 @@ class MotoController extends Controller
             $moto = Moto::findOrFail($id);
             $data = $request->all();
 
+            // Convertir campos booleanos
+            $booleanFields = ['cargador_usb', 'luz_led', 'alarma', 'bluetooth'];
+            foreach ($booleanFields as $field) {
+                if (isset($data[$field])) {
+                    $data[$field] = filter_var($data[$field], FILTER_VALIDATE_BOOLEAN) ? 1 : 0;
+                }
+            }
+
             // Procesar la imagen si se proporciona una nueva
             if ($request->hasFile('imagen')) {
+                Log::info('Procesando nueva imagen:', [
+                    'nombre_original' => $request->file('imagen')->getClientOriginalName(),
+                    'mime_type' => $request->file('imagen')->getMimeType(),
+                    'tamaño' => $request->file('imagen')->getSize()
+                ]);
+
                 $image = $request->file('imagen');
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 
@@ -305,7 +337,12 @@ class MotoController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Error al actualizar moto: ' . $e->getMessage());
+            Log::error('Error al actualizar moto:', [
+                'mensaje' => $e->getMessage(),
+                'linea' => $e->getLine(),
+                'archivo' => $e->getFile()
+            ]);
+            
             return response()->json([
                 'status' => false,
                 'message' => 'Error al actualizar la moto',
