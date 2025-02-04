@@ -40,6 +40,8 @@ use App\Http\Controllers\motos\TipoMotoController;
 use App\Http\Controllers\motos\MotoController;
 use App\Http\Controllers\motos\ModeloController;
 use App\Http\Controllers\motos\CotizacionController;
+use App\Http\Controllers\motos\MenuMotosController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -220,4 +222,6 @@ Route::post('cotizaciones', [CotizacionController::class, 'store']);
 Route::get('cotizaciones/{id}', [CotizacionController::class, 'show']);
 Route::put('cotizaciones/{id}', [CotizacionController::class, 'update']);
 Route::delete('cotizaciones/{id}', [CotizacionController::class, 'destroy']);
+
+Route::get('/menu-motos', [MenuMotosController::class, 'getMenuMotos']);
 
