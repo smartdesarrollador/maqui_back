@@ -168,7 +168,7 @@ class MotoController extends Controller
                 $image->move($path, $imageName);
                 
                 // Guardar la ruta relativa en la base de datos
-                $data['imagen'] = 'assets/motos/' . $imageName;
+                $data['imagen'] = 'assets/imagen/motos/' . $imageName;
             } else {
                 Log::error('No se encontró archivo de imagen en la request');
             }
@@ -322,7 +322,7 @@ class MotoController extends Controller
                 $image->move($path, $imageName);
                 
                 // Actualizar la ruta de la imagen en los datos
-                $data['imagen'] = 'assets/motos/' . $imageName;
+                $data['imagen'] = 'assets/imagen/motos/' . $imageName;
             }
 
             $moto->update($data);
