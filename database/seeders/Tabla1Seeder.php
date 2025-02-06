@@ -26,7 +26,7 @@ class Tabla1Seeder extends Seeder
                 'varchar4' => $faker->word,
                 'varchar5' => $faker->word,
                 'varchar6' => $faker->word,
-                'varchar7' => 'assets/imagen/tabla1/imagen' . $i + 1 . '.png', // Genera imagen1.png, imagen2.png, ..., imagen10.png
+                'varchar7' => 'assets/imagen/tabla1/imagen' . $i + 1 . '.jpg', // Genera imagen1.png, imagen2.png, ..., imagen10.png
                 'decimal1' => $faker->randomFloat(2, 0, 10000),
                 'decimal2' => $faker->randomFloat(2, 0, 10000),
                 'decimal3' => $faker->randomFloat(2, 0, 10000),
