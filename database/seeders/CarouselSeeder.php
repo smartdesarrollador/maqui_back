@@ -18,8 +18,8 @@ class CarouselSeeder extends Seeder
 
         DB::table('carousel')->insert([
             'id_carousel' => 1,
-            'nombre_carousel' => "slider_1.jpg",
-            'url_carousel' => "assets/imagen/carousel/slider_1.jpg",
+            'nombre_carousel' => "imagen1.jpg",
+            'url_carousel' => "assets/imagen/carousel/imagen1.jpg",
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
 
@@ -27,19 +27,35 @@ class CarouselSeeder extends Seeder
 
         DB::table('carousel')->insert([
             'id_carousel' => 2,
-            'nombre_carousel' => "slider_2.jpg",
-        'url_carousel' => "assets/imagen/carousel/slider_2.jpg",
+            'nombre_carousel' => "imagen2.jpg",
+        'url_carousel' => "assets/imagen/carousel/imagen2.jpg",
         'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
     
     DB::table('carousel')->insert([
             'id_carousel' => 3,
-            'nombre_carousel' => "slider_3.jpg",
-            'url_carousel' => "assets/imagen/carousel/slider_3.jpg",
+            'nombre_carousel' => "imagen3.jpg",
+            'url_carousel' => "assets/imagen/carousel/imagen3.jpg",
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
 
+        ]);
+
+        DB::table('carousel')->insert([
+            'id_carousel' => 4,
+            'nombre_carousel' => "imagen4.jpg",
+            'url_carousel' => "assets/imagen/carousel/imagen4.jpg",
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('carousel')->insert([
+            'id_carousel' => 5,
+            'nombre_carousel' => "imagen5.jpg",
+            'url_carousel' => "assets/imagen/carousel/imagen5.jpg",
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
         ]);
 
        
