@@ -41,6 +41,7 @@ use App\Http\Controllers\motos\MotoController;
 use App\Http\Controllers\motos\ModeloController;
 use App\Http\Controllers\motos\CotizacionController;
 use App\Http\Controllers\motos\MenuMotosController;
+use App\Http\Controllers\motos\MarcaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -224,4 +225,13 @@ Route::put('cotizaciones/{id}', [CotizacionController::class, 'update']);
 Route::delete('cotizaciones/{id}', [CotizacionController::class, 'destroy']);
 
 Route::get('/menu-motos', [MenuMotosController::class, 'getMenuMotos']);
+
+
+// Rutas para marcas
+Route::get('marcas', [MarcaController::class, 'index']);
+Route::get('marcas/{id}', [MarcaController::class, 'show']);
+Route::post('marcas', [MarcaController::class, 'store']);
+Route::put('marcas/{id}', [MarcaController::class, 'update']);
+Route::delete('marcas/{id}', [MarcaController::class, 'destroy']);
+
 
