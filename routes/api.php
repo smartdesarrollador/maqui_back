@@ -42,6 +42,7 @@ use App\Http\Controllers\motos\ModeloController;
 use App\Http\Controllers\motos\CotizacionController;
 use App\Http\Controllers\motos\MenuMotosController;
 use App\Http\Controllers\motos\MarcaController;
+use App\Http\Controllers\motos\TipoAccesorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,4 +235,10 @@ Route::post('marcas', [MarcaController::class, 'store']);
 Route::put('marcas/{id}', [MarcaController::class, 'update']);
 Route::delete('marcas/{id}', [MarcaController::class, 'destroy']);
 
+// Rutas para tipos de accesorios
+Route::get('tipos-accesorios', [TipoAccesorioController::class, 'index']);
+Route::get('tipos-accesorios/{id}', [TipoAccesorioController::class, 'show']);
+Route::post('tipos-accesorios', [TipoAccesorioController::class, 'store']);
+Route::put('tipos-accesorios/{id}', [TipoAccesorioController::class, 'update']);
+Route::delete('tipos-accesorios/{id}', [TipoAccesorioController::class, 'destroy']);
 
