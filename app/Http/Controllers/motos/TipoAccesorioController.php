@@ -20,9 +20,13 @@ class TipoAccesorioController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $tiposAccesorios = TipoAccesorio::with('accesorios')->get();
+            $tiposAccesorios = TipoAccesorio::select('id_tipo_accesorio', 'nombre', 'descripcion')->get();
             
-            return response()->json($tiposAccesorios, 200);
+            return response()->json([
+                'status' => true,
+                'message' => 'Tipos de accesorios obtenidos exitosamente',
+                'data' => $tiposAccesorios
+            ], 200);
         } catch (Exception $e) {
             Log::error('Error al obtener tipos de accesorios: ' . $e->getMessage());
             

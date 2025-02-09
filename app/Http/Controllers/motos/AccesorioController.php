@@ -113,12 +113,14 @@ class AccesorioController extends Controller
                 $rutaCompleta = public_path('storage/' . $nombreImagen);
                 
                 // Asegurarse que el directorio existe
-                if (!file_exists(public_path('storage/accesorios'))) {
-                    mkdir(public_path('storage/accesorios'), 0777, true);
+                if (!file_exists(public_path('assets/imagen/accesorios'))) {
+                    mkdir(public_path('assets/imagen/accesorios'), 0777, true);
                 }
                 
+
                 // Mover la imagen al directorio público
-                $imagen->move(public_path('storage/accesorios'), basename($nombreImagen));
+                $imagen->move(public_path('assets/imagen/accesorios'), basename($nombreImagen));
+
             }
 
             $accesorio = Accesorio::create([
@@ -200,25 +202,29 @@ class AccesorioController extends Controller
             if ($request->hasFile('imagen')) {
                 // Eliminar imagen anterior si existe
                 if ($accesorio->imagen) {
-                    $rutaImagenAnterior = public_path('storage/' . $accesorio->imagen);
+                    $rutaImagenAnterior = public_path('assets/imagen/accesorios/' . $accesorio->imagen);
                     if (file_exists($rutaImagenAnterior)) {
                         unlink($rutaImagenAnterior);
                     }
                 }
+
                 
                 $imagen = $request->file('imagen');
                 $nombreImagen = 'accesorios/' . Str::random(20) . '.' . $imagen->getClientOriginalExtension();
-                $rutaImagen = public_path('storage/' . $nombreImagen);
+                $rutaImagen = public_path('assets/imagen/accesorios/' . $nombreImagen);
                 
+
                 // Asegurar que el directorio existe
-                $directorioAccesorios = public_path('storage/accesorios');
+                $directorioAccesorios = public_path('assets/imagen/accesorios');
                 if (!file_exists($directorioAccesorios)) {
                     mkdir($directorioAccesorios, 0777, true);
                 }
+
                 
                 // Mover la imagen al directorio
-                $imagen->move(public_path('storage/accesorios'), basename($nombreImagen));
+                $imagen->move(public_path('assets/imagen/accesorios'), basename($nombreImagen));
                 
+
                 $request->merge(['imagen' => $nombreImagen]);
             }
 
