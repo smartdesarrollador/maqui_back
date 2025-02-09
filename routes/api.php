@@ -44,6 +44,7 @@ use App\Http\Controllers\motos\MenuMotosController;
 use App\Http\Controllers\motos\MarcaController;
 use App\Http\Controllers\motos\TipoAccesorioController;
 use App\Http\Controllers\motos\TipoRepuestoController;
+use App\Http\Controllers\motos\AccesorioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -249,3 +250,10 @@ Route::get('tipos-repuestos/{id}', [TipoRepuestoController::class, 'show']);
 Route::post('tipos-repuestos', [TipoRepuestoController::class, 'store']);
 Route::put('tipos-repuestos/{id}', [TipoRepuestoController::class, 'update']);
 Route::delete('tipos-repuestos/{id}', [TipoRepuestoController::class, 'destroy']);
+
+// Rutas para accesorios
+Route::get('accesorios', [AccesorioController::class, 'index']);
+Route::get('accesorios/{id}', [AccesorioController::class, 'show']);
+Route::post('accesorios', [AccesorioController::class, 'store']);
+Route::post('accesorios/{id}', [AccesorioController::class, 'update']);
+Route::delete('accesorios/{id}', [AccesorioController::class, 'destroy']);
