@@ -47,6 +47,7 @@ use App\Http\Controllers\motos\TipoRepuestoController;
 use App\Http\Controllers\motos\AccesorioController;
 use App\Http\Controllers\motos\RepuestoController;
 use App\Http\Controllers\motos\FinanciacionController;
+use App\Http\Controllers\motos\MotosByTipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -273,3 +274,12 @@ Route::get('financiaciones/{id}', [FinanciacionController::class, 'show']);
 Route::post('financiaciones', [FinanciacionController::class, 'store']);
 Route::post('financiaciones/{id}', [FinanciacionController::class, 'update']);
 Route::delete('financiaciones/{id}', [FinanciacionController::class, 'destroy']);
+
+// Rutas para motos por tipo
+Route::prefix('motos-por-tipo')->group(function () {
+    Route::get('/', [MotosByTipoController::class, 'index']);
+    Route::get('/tipos', [MotosByTipoController::class, 'getTipos']);
+    Route::get('/{tipo}', [MotosByTipoController::class, 'index']);
+});
+
+
