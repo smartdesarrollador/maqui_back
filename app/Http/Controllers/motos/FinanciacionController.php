@@ -18,16 +18,58 @@ class FinanciacionController extends Controller
     /**
      * Mostrar listado de financiamientos con sus relaciones
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
         try {
-            $financiamientos = Financiamiento::with(['cotizacion.moto', 'cliente'])
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $query = Financiamiento::with(['cotizacion.moto', 'cliente']);
+
+            // Búsqueda por estado
+            if ($request->has('estado')) {
+                $query->where('estado', 'like', '%' . $request->estado . '%');
+            }
+
+            // Búsqueda por monto financiado
+            if ($request->has('monto_min')) {
+                $query->where('monto_financiado', '>=', $request->monto_min);
+            }
+            if ($request->has('monto_max')) {
+                $query->where('monto_financiado', '<=', $request->monto_max);
+            }
+
+            // Búsqueda por cliente
+            if ($request->has('cliente')) {
+                $query->whereHas('cliente', function($q) use ($request) {
+                    $q->where('nombre', 'like', '%' . $request->cliente . '%')
+                      ->orWhere('apellido', 'like', '%' . $request->cliente . '%');
+                });
+            }
+
+            // Búsqueda por fecha
+            if ($request->has('fecha_inicio')) {
+                $query->whereDate('created_at', '>=', $request->fecha_inicio);
+            }
+            if ($request->has('fecha_fin')) {
+                $query->whereDate('created_at', '<=', $request->fecha_fin);
+            }
+
+            // Ordenamiento
+            $sortField = $request->input('sort_by', 'created_at');
+            $sortDirection = $request->input('sort_direction', 'desc');
+            $query->orderBy($sortField, $sortDirection);
+
+            // Paginación
+            $perPage = $request->input('per_page', 10);
+            $financiamientos = $query->paginate($perPage);
 
             return response()->json([
                 'status' => 'success',
-                'data' => $financiamientos
+                'data' => $financiamientos->items(),
+                'meta' => [
+                    'total' => $financiamientos->total(),
+                    'current_page' => $financiamientos->currentPage(),
+                    'per_page' => $financiamientos->perPage(),
+                    'last_page' => $financiamientos->lastPage()
+                ]
             ], 200);
         } catch (Exception $e) {
             Log::error('Error al obtener financiamientos: ' . $e->getMessage());

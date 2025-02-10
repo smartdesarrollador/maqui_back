@@ -186,5 +186,26 @@ class FinanciamientoSeeder extends Seeder
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
+
+        DB::table('financiamientos')->insert([
+            'cotizacion_id' => 1,
+            'cliente_id' => 1,
+            'monto_financiado' => 13000.00,
+            'plazo' => 24,
+            'interes' => 12.2,
+            'cuota_mensual' => 640.00,
+            'fecha_inicio' => '2024-06-15',
+            'fecha_fin' => '2026-06-15',
+            'estado' => 'activo',
+            'situacion_laboral' => 'Dependiente',
+            'cuota_inicial' => 3200.00,
+            'ingreso_mensual' => 4600.00,
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        
+            
+        
     }
 }
