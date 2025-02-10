@@ -20,17 +20,18 @@ class TipoRepuestoController extends Controller
     public function index(): JsonResponse
     {
         try {
-            $tipoRepuestos = TipoRepuesto::all();
+            $tiposRepuesto = TipoRepuesto::orderBy('nombre')->get();
+            
             return response()->json([
                 'status' => true,
-                'message' => 'Tipos de repuestos obtenidos exitosamente',
-                'data' => $tipoRepuestos
+                'message' => 'Tipos de repuesto obtenidos exitosamente',
+                'data' => $tiposRepuesto
             ], 200);
         } catch (Exception $e) {
-            Log::error('Error al obtener tipos de repuestos: ' . $e->getMessage());
+            Log::error('Error al obtener tipos de repuesto: ' . $e->getMessage());
             return response()->json([
                 'status' => false,
-                'message' => 'Error al obtener los tipos de repuestos',
+                'message' => 'Error al obtener los tipos de repuesto',
                 'error' => $e->getMessage()
             ], 500);
         }
