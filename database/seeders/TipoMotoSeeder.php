@@ -18,29 +18,36 @@ class TipoMotoSeeder extends Seeder
         $horaActual = Carbon::now();
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Deportiva',
+            'nombre' => 'Pisteras',
             'descripcion' => 'Moto deportiva de alto rendimiento',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Scooter',
+            'nombre' => 'Ciudad',
             'descripcion' => 'Moto automática ideal para ciudad',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Aventura',
+            'nombre' => 'Todo Terreno',
             'descripcion' => 'Moto todoterreno para caminos difíciles',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Urbana',
+            'nombre' => 'Scooter',
             'descripcion' => 'Moto económica para uso diario',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('tipo_motos')->insert([
+            'nombre' => 'Utilitarias',
+            'descripcion' => 'Moto estilo crucero para viajes largos',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
