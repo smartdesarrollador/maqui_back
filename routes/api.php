@@ -49,6 +49,9 @@ use App\Http\Controllers\motos\RepuestoController;
 use App\Http\Controllers\motos\FinanciacionController;
 use App\Http\Controllers\motos\MotosByTipoController;
 use App\Http\Controllers\motos\FormularioCotizacionController;
+use App\Http\Controllers\medios\MedioCategoriaController;
+use App\Http\Controllers\medios\MedioFileController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -284,5 +287,22 @@ Route::prefix('motos-por-tipo')->group(function () {
 });
 
 Route::post('/cotizaciones', [FormularioCotizacionController::class, 'store']);
+
+// Rutas para categorías de archivos multimedia
+Route::get('/media-categorias', [MedioCategoriaController::class, 'index']);
+Route::get('/media-categorias/{id}', [MedioCategoriaController::class, 'show']);
+Route::post('/media-categorias', [MedioCategoriaController::class, 'store']);
+Route::put('/media-categorias/{id}', [MedioCategoriaController::class, 'update']);
+Route::delete('/media-categorias/{id}', [MedioCategoriaController::class, 'destroy']);
+
+// Rutas para archivos multimedia
+Route::prefix('media')->group(function () {
+    Route::get('/', [MedioFileController::class, 'index']); // Obtener todos los archivos multimedia
+    Route::get('/{id}', [MedioFileController::class, 'show']); // Obtener un archivo multimedia por ID
+    Route::post('/', [MedioFileController::class, 'store']); // Crear un nuevo archivo multimedia
+    Route::put('/{id}', [MedioFileController::class, 'update']); // Actualizar un archivo multimedia existente
+    Route::delete('/{id}', [MedioFileController::class, 'destroy']); // Eliminar un archivo multimedia
+});
+
 
 

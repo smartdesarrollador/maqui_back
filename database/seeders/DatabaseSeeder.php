@@ -82,6 +82,8 @@ class DatabaseSeeder extends Seeder
             CotizacionRepuestoSeeder::class,
             FinanciamientoSeeder::class,
             ResenaSeeder::class,
+            MediaCategorieSeeder::class,
+            MediaFileSeeder::class,
         ]);
     }
 }
