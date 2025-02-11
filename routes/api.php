@@ -48,6 +48,7 @@ use App\Http\Controllers\motos\AccesorioController;
 use App\Http\Controllers\motos\RepuestoController;
 use App\Http\Controllers\motos\FinanciacionController;
 use App\Http\Controllers\motos\MotosByTipoController;
+use App\Http\Controllers\motos\FormularioCotizacionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -281,5 +282,7 @@ Route::prefix('motos-por-tipo')->group(function () {
     Route::get('/tipos', [MotosByTipoController::class, 'getTipos']);
     Route::get('/{tipo}', [MotosByTipoController::class, 'index']);
 });
+
+Route::post('/cotizaciones', [FormularioCotizacionController::class, 'store']);
 
 
