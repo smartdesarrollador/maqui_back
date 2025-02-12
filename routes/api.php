@@ -299,7 +299,7 @@ Route::delete('/media-categorias/{id}', [MedioCategoriaController::class, 'destr
 Route::get('media', [MedioFileController::class, 'index']);
 Route::get('media/{id}', [MedioFileController::class, 'show'])->where('id', '[0-9]+');
 Route::post('media', [MedioFileController::class, 'store']);
-Route::put('media/{id}', [MedioFileController::class, 'update']);
+Route::post('media/{id}', [MedioFileController::class, 'update']);
 Route::delete('media/{id}', [MedioFileController::class, 'destroy']);
 
 
