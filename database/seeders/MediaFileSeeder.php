@@ -18,7 +18,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen1.jpg',
-            'file_path' => 'assets/media/imagen/imagen1.jpg', 
+            'file_path' => 'assets/media/image/imagen1.jpg', 
             'file_type' => 'image',
             'file_size' => 1024,
             'mime_type' => 'image/jpeg',
@@ -31,6 +31,48 @@ class MediaFileSeeder extends Seeder
             'title' => 'Imagen de prueba',
             'is_public' => true,
             'sort_order' => 0,
+            'category_id' => 1,
+            'uploaded_by' => 1,
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('media_files')->insert([
+            'file_name' => 'imagen2.png',
+            'file_path' => 'assets/media/image/imagen2.jpg',
+            'file_type' => 'image',
+            'file_size' => 2048,
+            'mime_type' => 'image/jpeg',
+            'extension' => 'png',
+            'width' => 800,
+            'height' => 600,
+            'duration' => 0,
+            'description' => 'Segunda imagen de prueba',
+            'alt_text' => 'Segunda imagen de prueba',
+            'title' => 'Segunda imagen de prueba',
+            'is_public' => true,
+            'sort_order' => 4,
+            'category_id' => 1,
+            'uploaded_by' => 1,
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('media_files')->insert([
+            'file_name' => 'imagen3.jpg',
+            'file_path' => 'assets/media/image/imagen3.jpg',
+            'file_type' => 'image',
+            'file_size' => 2048,
+            'mime_type' => 'image/jpeg',
+            'extension' => 'jpg',
+            'width' => 1920,
+            'height' => 1080,
+            'duration' => null,
+            'description' => 'Tercera imagen de prueba',
+            'alt_text' => 'Tercera imagen de prueba',
+            'title' => 'Tercera imagen de prueba',
+            'is_public' => true,
+            'sort_order' => 8,
             'category_id' => 1,
             'uploaded_by' => 1,
             'created_at' => $horaActual,
@@ -100,26 +142,7 @@ class MediaFileSeeder extends Seeder
             'updated_at' => $horaActual,
         ]);
 
-        DB::table('media_files')->insert([
-            'file_name' => 'imagen2.png',
-            'file_path' => 'assets/media/imagen/imagen2.png',
-            'file_type' => 'image',
-            'file_size' => 2048,
-            'mime_type' => 'image/png',
-            'extension' => 'png',
-            'width' => 800,
-            'height' => 600,
-            'duration' => 0,
-            'description' => 'Segunda imagen de prueba',
-            'alt_text' => 'Segunda imagen de prueba',
-            'title' => 'Segunda imagen de prueba',
-            'is_public' => true,
-            'sort_order' => 4,
-            'category_id' => 1,
-            'uploaded_by' => 1,
-            'created_at' => $horaActual,
-            'updated_at' => $horaActual,
-        ]);
+        
 
         DB::table('media_files')->insert([
             'file_name' => 'video2.mov',
@@ -184,26 +207,7 @@ class MediaFileSeeder extends Seeder
             'updated_at' => $horaActual,
         ]);
 
-        DB::table('media_files')->insert([
-            'file_name' => 'imagen3.jpg',
-            'file_path' => 'assets/media/imagen/imagen3.jpg',
-            'file_type' => 'image',
-            'file_size' => 2048,
-            'mime_type' => 'image/jpeg',
-            'extension' => 'jpg',
-            'width' => 1920,
-            'height' => 1080,
-            'duration' => null,
-            'description' => 'Tercera imagen de prueba',
-            'alt_text' => 'Tercera imagen de prueba',
-            'title' => 'Tercera imagen de prueba',
-            'is_public' => true,
-            'sort_order' => 8,
-            'category_id' => 1,
-            'uploaded_by' => 1,
-            'created_at' => $horaActual,
-            'updated_at' => $horaActual,
-        ]);
+        
 
         DB::table('media_files')->insert([
             'file_name' => 'video3.mp4',
@@ -270,7 +274,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen4.png',
-            'file_path' => 'assets/media/imagen/imagen4.png',
+            'file_path' => 'assets/media/image/imagen4.png',
             'file_type' => 'image',
             'file_size' => 3584,
             'mime_type' => 'image/png',
