@@ -119,13 +119,13 @@ class MedioFileController extends Controller
             }
 
             // Crear directorio si no existe
-            $uploadPath = public_path('media/' . $fileType);
+            $uploadPath = public_path('assets/media/' . $fileType);
             if (!file_exists($uploadPath)) {
                 mkdir($uploadPath, 0777, true);
             }
 
             // Guardar el archivo usando public_path
-            $relativePath = 'media/' . $fileType . '/' . $fileName;
+            $relativePath = 'assets/media/' . $fileType . '/' . $fileName;
             $file->move($uploadPath, $fileName);
 
             $mediaFile = MediaFile::create([
@@ -196,7 +196,7 @@ class MedioFileController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'file' => 'nullable|file|max:10240',
-                'title' => 'required|string|max:255',
+                'title' => 'required|string|max:255', 
                 'description' => 'nullable|string',
                 'alt_text' => 'nullable|string',
                 'is_public' => 'nullable|boolean',
@@ -217,7 +217,10 @@ class MedioFileController extends Controller
             // Si se proporciona un nuevo archivo
             if ($request->hasFile('file')) {
                 // Eliminar archivo anterior
-                Storage::disk('public')->delete($mediaFile->file_path);
+                $oldPath = public_path($mediaFile->file_path);
+                if (file_exists($oldPath)) {
+                    unlink($oldPath);
+                }
 
                 $file = $request->file('file');
                 $extension = $file->getClientOriginalExtension();
@@ -233,12 +236,19 @@ class MedioFileController extends Controller
                     list($width, $height) = getimagesize($file->path());
                 }
 
+                // Crear directorio si no existe
+                $uploadPath = public_path('assets/media/' . $fileType);
+                if (!file_exists($uploadPath)) {
+                    mkdir($uploadPath, 0777, true);
+                }
+
                 // Guardar nuevo archivo
-                $path = $file->storeAs('media/' . $fileType, $fileName, 'public');
+                $relativePath = 'assets/media/' . $fileType . '/' . $fileName;
+                $file->move($uploadPath, $fileName);
 
                 // Actualizar información del archivo
                 $mediaFile->file_name = $fileName;
-                $mediaFile->file_path = $path;
+                $mediaFile->file_path = $relativePath;
                 $mediaFile->file_type = $fileType;
                 $mediaFile->file_size = $fileSize;
                 $mediaFile->mime_type = $mimeType;

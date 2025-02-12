@@ -18,7 +18,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen1.jpg',
-            'file_path' => 'assets/imagen/imagen1.jpg', 
+            'file_path' => 'assets/media/imagen/imagen1.jpg', 
             'file_type' => 'image',
             'file_size' => 1024,
             'mime_type' => 'image/jpeg',
@@ -39,7 +39,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'video1.mp4',
-            'file_path' => 'assets/video/video1.mp4',
+            'file_path' => 'assets/media/video/video1.mp4',
             'file_type' => 'video',
             'file_size' => 5120,
             'mime_type' => 'video/mp4',
@@ -60,7 +60,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'documento1.pdf',
-            'file_path' => 'assets/documentos/documento1.pdf',
+            'file_path' => 'assets/media/documentos/documento1.pdf',
             'file_type' => 'document',
             'file_size' => 2048,
             'mime_type' => 'application/pdf',
@@ -81,7 +81,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'audio1.mp3',
-            'file_path' => 'assets/audio/audio1.mp3',
+            'file_path' => 'assets/media/audio/audio1.mp3',
             'file_type' => 'audio',
             'file_size' => 3072,
             'mime_type' => 'audio/mpeg',
@@ -102,7 +102,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen2.png',
-            'file_path' => 'assets/imagen/imagen2.png',
+            'file_path' => 'assets/media/imagen/imagen2.png',
             'file_type' => 'image',
             'file_size' => 2048,
             'mime_type' => 'image/png',
@@ -123,7 +123,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'video2.mov',
-            'file_path' => 'assets/video/video2.mov',
+            'file_path' => 'assets/media/video/video2.mov',
             'file_type' => 'video',
             'file_size' => 8192,
             'mime_type' => 'video/quicktime',
@@ -144,7 +144,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'documento2.docx',
-            'file_path' => 'assets/documentos/documento2.docx',
+            'file_path' => 'assets/media/documentos/documento2.docx',
             'file_type' => 'document',
             'file_size' => 1536,
             'mime_type' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -165,7 +165,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'audio2.wav',
-            'file_path' => 'assets/audio/audio2.wav', 
+            'file_path' => 'assets/media/audio/audio2.wav', 
             'file_type' => 'audio',
             'file_size' => 4096,
             'mime_type' => 'audio/wav',
@@ -186,7 +186,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen3.jpg',
-            'file_path' => 'assets/imagenes/imagen3.jpg',
+            'file_path' => 'assets/media/imagen/imagen3.jpg',
             'file_type' => 'image',
             'file_size' => 2048,
             'mime_type' => 'image/jpeg',
@@ -207,7 +207,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'video3.mp4',
-            'file_path' => 'assets/video/video3.mp4',
+            'file_path' => 'assets/media/video/video3.mp4',
             'file_type' => 'video',
             'file_size' => 10240,
             'mime_type' => 'video/mp4',
@@ -228,7 +228,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'documento3.pdf',
-            'file_path' => 'assets/documentos/documento3.pdf',
+            'file_path' => 'assets/media/documentos/documento3.pdf',
             'file_type' => 'document',
             'file_size' => 2048,
             'mime_type' => 'application/pdf',
@@ -249,7 +249,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'audio3.mp3',
-            'file_path' => 'assets/audio/audio3.mp3',
+            'file_path' => 'assets/media/audio/audio3.mp3',
             'file_type' => 'audio',
             'file_size' => 3072,
             'mime_type' => 'audio/mpeg',
@@ -270,7 +270,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'imagen4.png',
-            'file_path' => 'assets/imagenes/imagen4.png',
+            'file_path' => 'assets/media/imagen/imagen4.png',
             'file_type' => 'image',
             'file_size' => 3584,
             'mime_type' => 'image/png',
@@ -291,7 +291,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'video4.webm',
-            'file_path' => 'assets/video/video4.webm',
+            'file_path' => 'assets/media/video/video4.webm',
             'file_type' => 'video',
             'file_size' => 12288,
             'mime_type' => 'video/webm',
@@ -312,7 +312,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'documento4.xlsx',
-            'file_path' => 'assets/documentos/documento4.xlsx',
+            'file_path' => 'assets/media/documentos/documento4.xlsx',
             'file_type' => 'document',
             'file_size' => 1792,
             'mime_type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -333,7 +333,7 @@ class MediaFileSeeder extends Seeder
 
         DB::table('media_files')->insert([
             'file_name' => 'audio4.ogg',
-            'file_path' => 'assets/audio/audio4.ogg',
+            'file_path' => 'assets/media/audio/audio4.ogg',
             'file_type' => 'audio',
             'file_size' => 2560,
             'mime_type' => 'audio/ogg',
