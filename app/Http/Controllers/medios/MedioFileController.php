@@ -165,24 +165,33 @@ class MedioFileController extends Controller
     }
 
     /**
-     * Muestra un archivo multimedia específico.
+     * Obtiene un archivo multimedia específico.
      */
     public function show(int $id): JsonResponse
     {
         try {
-            $archivo = MediaFile::with(['category', 'uploader'])
-                ->findOrFail($id);
+            $mediaFile = MediaFile::query()
+                ->with(['category', 'uploader'])
+                ->find($id);
+
+            if (!$mediaFile) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Archivo no encontrado'
+                ], 404);
+            }
 
             return response()->json([
                 'status' => 'success',
-                'data' => $archivo
+                'data' => $mediaFile
             ]);
+
         } catch (\Exception $e) {
             Log::error('Error al obtener archivo multimedia: ' . $e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'message' => 'Archivo no encontrado'
-            ], 404);
+                'message' => 'Error al obtener el archivo'
+            ], 500);
         }
     }
 

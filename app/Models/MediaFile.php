@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class MediaFile extends Model
 {
@@ -33,9 +34,9 @@ class MediaFile extends Model
         'width',
         'height',
         'duration',
+        'title',
         'description',
         'alt_text',
-        'title',
         'is_public',
         'sort_order',
         'category_id',
@@ -46,11 +47,11 @@ class MediaFile extends Model
      * Los atributos que deben ser convertidos a tipos nativos
      */
     protected $casts = [
-        'file_size' => 'integer',
+        'is_public' => 'boolean',
         'width' => 'integer',
         'height' => 'integer',
-        'duration' => 'float',
-        'is_public' => 'boolean',
+        'duration' => 'integer',
+        'file_size' => 'integer',
         'sort_order' => 'integer',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
@@ -60,15 +61,15 @@ class MediaFile extends Model
     /**
      * Obtiene la categoría a la que pertenece el archivo
      */
-    public function category()
+    public function category(): BelongsTo
     {
-        return $this->belongsTo(MediaCategoria::class, 'category_id');
+        return $this->belongsTo(MediaCategory::class, 'category_id');
     }
 
     /**
      * Obtiene el usuario que subió el archivo
      */
-    public function uploader()
+    public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by');
     }

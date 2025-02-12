@@ -296,13 +296,11 @@ Route::put('/media-categorias/{id}', [MedioCategoriaController::class, 'update']
 Route::delete('/media-categorias/{id}', [MedioCategoriaController::class, 'destroy']);
 
 // Rutas para archivos multimedia
-Route::prefix('media')->group(function () {
-    Route::get('/', [MedioFileController::class, 'index']); // Obtener todos los archivos multimedia
-    Route::get('/{id}', [MedioFileController::class, 'show']); // Obtener un archivo multimedia por ID
-    Route::post('/', [MedioFileController::class, 'store']); // Crear un nuevo archivo multimedia
-    Route::put('/{id}', [MedioFileController::class, 'update']); // Actualizar un archivo multimedia existente
-    Route::delete('/{id}', [MedioFileController::class, 'destroy']); // Eliminar un archivo multimedia
-});
+Route::get('media', [MedioFileController::class, 'index']);
+Route::get('media/{id}', [MedioFileController::class, 'show'])->where('id', '[0-9]+');
+Route::post('media', [MedioFileController::class, 'store']);
+Route::put('media/{id}', [MedioFileController::class, 'update']);
+Route::delete('media/{id}', [MedioFileController::class, 'destroy']);
 
 
 
