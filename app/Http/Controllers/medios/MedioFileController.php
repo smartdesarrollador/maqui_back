@@ -87,7 +87,7 @@ class MedioFileController extends Controller
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'alt_text' => 'nullable|string',
-                'is_public' => 'boolean',
+                'is_public' => 'nullable|boolean',
                 'sort_order' => 'nullable|integer',
                 'category_id' => 'nullable|exists:media_categories,id'
             ]);
@@ -118,12 +118,19 @@ class MedioFileController extends Controller
                 list($width, $height) = getimagesize($file->path());
             }
 
-            // Guardar el archivo
-            $path = $file->storeAs('media/' . $fileType, $fileName, 'public');
+            // Crear directorio si no existe
+            $uploadPath = public_path('media/' . $fileType);
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0777, true);
+            }
+
+            // Guardar el archivo usando public_path
+            $relativePath = 'media/' . $fileType . '/' . $fileName;
+            $file->move($uploadPath, $fileName);
 
             $mediaFile = MediaFile::create([
                 'file_name' => $fileName,
-                'file_path' => $path,
+                'file_path' => $relativePath,
                 'file_type' => $fileType,
                 'file_size' => $fileSize,
                 'mime_type' => $mimeType,
@@ -192,7 +199,7 @@ class MedioFileController extends Controller
                 'title' => 'required|string|max:255',
                 'description' => 'nullable|string',
                 'alt_text' => 'nullable|string',
-                'is_public' => 'boolean',
+                'is_public' => 'nullable|boolean',
                 'sort_order' => 'nullable|integer',
                 'category_id' => 'nullable|exists:media_categories,id'
             ]);
