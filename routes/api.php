@@ -18,6 +18,7 @@ use App\Http\Controllers\Test\TestConsultasController;
 
 
 use App\Http\Controllers\Test\CategoriaArticuloController;
+use App\Http\Controllers\Test\ArticuloController;
 
 
 use App\Http\Controllers\FileController;
@@ -143,6 +144,14 @@ Route::post('categoria_articulos', [CategoriaArticuloController::class, 'store']
 Route::put('categoria_articulos/{id}', [CategoriaArticuloController::class, 'update']);
 Route::delete('categoria_articulos/{id}', [CategoriaArticuloController::class, 'destroy']);
 
+
+/* Crud Articulo */
+
+Route::get('articulos', [ArticuloController::class, 'index']);
+Route::get('articulos/{id}', [ArticuloController::class, 'show']);
+Route::post('articulos', [ArticuloController::class, 'store']);
+Route::put('articulos/{id}', [ArticuloController::class, 'update']);
+Route::delete('articulos/{id}', [ArticuloController::class, 'destroy']);
 
 
 
