@@ -15,6 +15,11 @@ use App\Http\Controllers\Test\Api\CrudController;
 use App\Http\Controllers\Test\TestFileController;
 use App\Http\Controllers\TestApiController;
 use App\Http\Controllers\Test\TestConsultasController;
+
+
+use App\Http\Controllers\Test\CategoriaArticuloController;
+
+
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\MisionController;
 use App\Http\Controllers\CarouselController;
@@ -128,6 +133,17 @@ Route::get('contactanos',function(){
 })->name('contactanos');
 
 Route::post('enviar_correo',[ContactController::class,'sendContactForm']);
+
+
+/* Crud Categoria Articulo */
+
+Route::get('categoria_articulos', [CategoriaArticuloController::class, 'index']);
+Route::get('categoria_articulos/{id}', [CategoriaArticuloController::class, 'show']);
+Route::post('categoria_articulos', [CategoriaArticuloController::class, 'store']);
+Route::put('categoria_articulos/{id}', [CategoriaArticuloController::class, 'update']);
+Route::delete('categoria_articulos/{id}', [CategoriaArticuloController::class, 'destroy']);
+
+
 
 
 // Crud Productos

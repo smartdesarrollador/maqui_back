@@ -84,6 +84,8 @@ class DatabaseSeeder extends Seeder
             ResenaSeeder::class,
             MediaCategorieSeeder::class,
             MediaFileSeeder::class,
+            CategoriaArticuloSeeder::class,
+            ArticuloSeeder::class,
         ]);
     }
 }
