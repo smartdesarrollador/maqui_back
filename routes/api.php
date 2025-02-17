@@ -19,6 +19,9 @@ use App\Http\Controllers\Test\TestConsultasController;
 
 use App\Http\Controllers\Test\CategoriaArticuloController;
 use App\Http\Controllers\Test\ArticuloController;
+use App\Http\Controllers\Test\EstudianteController;
+use App\Http\Controllers\Test\CursoController;
+use App\Http\Controllers\Test\EstudianteCursoController;
 
 
 use App\Http\Controllers\FileController;
@@ -154,6 +157,30 @@ Route::put('articulos/{id}', [ArticuloController::class, 'update']);
 Route::delete('articulos/{id}', [ArticuloController::class, 'destroy']);
 
 
+/* Crud Estudiante */
+
+Route::get('estudiantes', [EstudianteController::class, 'index']);
+Route::get('estudiantes/{id}', [EstudianteController::class, 'show']);
+Route::post('estudiantes', [EstudianteController::class, 'store']);
+Route::put('estudiantes/{id}', [EstudianteController::class, 'update']);
+Route::delete('estudiantes/{id}', [EstudianteController::class, 'destroy']);
+
+
+/* Crud Curso */
+
+Route::get('cursos', [CursoController::class, 'index']);
+Route::get('cursos/{id}', [CursoController::class, 'show']);
+Route::post('cursos', [CursoController::class, 'store']);
+Route::put('cursos/{id}', [CursoController::class, 'update']);
+Route::delete('cursos/{id}', [CursoController::class, 'destroy']);
+
+/* Crud EstudianteCurso */
+
+Route::get('estudiantes_cursos', [EstudianteCursoController::class, 'index']);
+Route::get('estudiantes_cursos/{id}', [EstudianteCursoController::class, 'show']);
+Route::post('estudiantes_cursos', [EstudianteCursoController::class, 'store']);
+Route::put('estudiantes_cursos/{id}', [EstudianteCursoController::class, 'update']);
+Route::delete('estudiantes_cursos/{id}', [EstudianteCursoController::class, 'destroy']);
 
 // Crud Productos
 Route::get('productos', [ProductoController::class, 'index']);

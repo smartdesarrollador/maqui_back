@@ -20,13 +20,9 @@ class ArticuloResource extends JsonResource
             'descripcion' => $this->descripcion,
             'precio' => $this->precio,
             'categoria_id' => $this->categoria_id,
-            'categoria' => $this->when($this->categoria, [
-                'id' => $this->categoria?->id,
-                'nombre' => $this->categoria?->nombre,
-                'descripcion' => $this->categoria?->descripcion,
-            ]),
+            'categoria' => new CategoriaArticuloResource($this->whenLoaded('categoria')),
             'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'updated_at' => $this->updated_at
         ];
     }
 }
