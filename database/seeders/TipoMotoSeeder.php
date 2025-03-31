@@ -25,7 +25,7 @@ class TipoMotoSeeder extends Seeder
         ]);
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Ciudad',
+            'nombre' => 'Deportiva',
             'descripcion' => 'Moto automática ideal para ciudad',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
@@ -53,7 +53,7 @@ class TipoMotoSeeder extends Seeder
         ]);
 
         DB::table('tipo_motos')->insert([
-            'nombre' => 'Custom',
+            'nombre' => 'Eléctrica',
             'descripcion' => 'Moto estilo crucero para viajes largos',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
