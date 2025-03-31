@@ -60,6 +60,7 @@ use App\Http\Controllers\motos\MotosByTipoController;
 use App\Http\Controllers\motos\FormularioCotizacionController;
 use App\Http\Controllers\medios\MedioCategoriaController;
 use App\Http\Controllers\medios\MedioFileController;
+use App\Http\Controllers\motos\ComparadorModelosMotosController;
 
 
 /*
@@ -355,4 +356,12 @@ Route::post('media/{id}', [MedioFileController::class, 'update']);
 Route::delete('media/{id}', [MedioFileController::class, 'destroy']);
 
 
+// Rutas para el comparador de modelos de motos
+Route::prefix('comparador-motos')->group(function () {
+    Route::get('/modelos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerModelosDisponibles');
+    Route::post('/comparar', 'App\Http\Controllers\motos\ComparadorModelosMotosController@compararModelos');
+    Route::get('/modelo/{id}', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerDetalleModelo');
+    Route::get('/marcas-modelos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerMarcasYModelos');
+    Route::get('/tipos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerTiposMotos');
+});
 
