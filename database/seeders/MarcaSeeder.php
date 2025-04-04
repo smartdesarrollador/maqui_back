@@ -18,7 +18,7 @@ class MarcaSeeder extends Seeder
         $horaActual = Carbon::now();
 
         DB::table('marcas')->insert([
-            'nombre' => 'Honda',
+            'nombre' => 'Alaska',
             'origen' => 'Japón',
             'fundacion' => '1948',
             'logo' => 'https://example.com/honda.png',
@@ -27,7 +27,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Yamaha',
+            'nombre' => 'Berlin',
             'origen' => 'Japón', 
             'fundacion' => '1955',
             'logo' => 'https://example.com/yamaha.png',
@@ -36,7 +36,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Kawasaki',
+            'nombre' => 'Cali',
             'origen' => 'Japón',
             'fundacion' => '1955',
             'logo' => 'https://example.com/kawasaki.png',
@@ -45,7 +45,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Suzuki',
+            'nombre' => 'Cheyenne',
             'origen' => 'Japón',
             'fundacion' => '1909',
             'logo' => 'https://example.com/suzuki.png',
@@ -54,7 +54,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'BMW Motorrad',
+            'nombre' => 'Dakota',
             'origen' => 'Alemania',
             'fundacion' => '1923',
             'logo' => 'https://example.com/bmw.png',
@@ -63,7 +63,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Ducati',
+            'nombre' => 'Detroit',
             'origen' => 'Italia',
             'fundacion' => '1926',
             'logo' => 'https://example.com/ducati.png',
@@ -72,7 +72,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'KTM',
+            'nombre' => 'Hummer',
             'origen' => 'Austria',
             'fundacion' => '1934',
             'logo' => 'https://example.com/ktm.png',
@@ -81,7 +81,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Triumph',
+            'nombre' => 'Ibiza',
             'origen' => 'Reino Unido',
             'fundacion' => '1902',
             'logo' => 'https://example.com/triumph.png',
@@ -90,7 +90,7 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Harley-Davidson',
+            'nombre' => 'Manhattan',
             'origen' => 'Estados Unidos',
             'fundacion' => '1903',
             'logo' => 'https://example.com/harley.png',
@@ -99,10 +99,64 @@ class MarcaSeeder extends Seeder
         ]);
 
         DB::table('marcas')->insert([
-            'nombre' => 'Aprilia',
+            'nombre' => 'Murano',
             'origen' => 'Italia',
             'fundacion' => '1945',
             'logo' => 'https://example.com/aprilia.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Nairobi',
+            'origen' => 'España',
+            'fundacion' => '1951',
+            'logo' => 'https://example.com/valencia.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Rio',
+            'origen' => 'Japón',
+            'fundacion' => '1963',
+            'logo' => 'https://example.com/tokio.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Seul',
+            'origen' => 'Alemania',
+            'fundacion' => '1972',
+            'logo' => 'https://example.com/berlin.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Shogun',
+            'origen' => 'China',
+            'fundacion' => '1985',
+            'logo' => 'https://example.com/shanghai.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Tekken',
+            'origen' => 'Australia',
+            'fundacion' => '1992',
+            'logo' => 'https://example.com/sydney.png',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
+
+        DB::table('marcas')->insert([
+            'nombre' => 'Xparta',
+            'origen' => 'Canadá',
+            'fundacion' => '1978',
+            'logo' => 'https://example.com/toronto.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);

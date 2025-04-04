@@ -58,5 +58,12 @@ class TipoMotoSeeder extends Seeder
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
         ]);
+
+        DB::table('tipo_motos')->insert([
+            'nombre' => 'Doble Propósito',
+            'descripcion' => 'Moto estilo doble propósito',
+            'created_at' => $horaActual,
+            'updated_at' => $horaActual,
+        ]);
     }
 }
