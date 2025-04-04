@@ -25,7 +25,7 @@ class Modelo extends Model
     protected $fillable = [
         'marca_id',
         'nombre',
-        'tipo',
+        'tipo_moto_id',
         'cilindrada',
         'imagen'
     ];
@@ -49,5 +49,10 @@ class Modelo extends Model
     public function motos()
     {
         return $this->hasMany(Moto::class, 'modelo_id', 'id_modelo');
+    }
+
+    public function tipoMoto()
+    {
+        return $this->belongsTo(TipoMoto::class, 'tipo_moto_id', 'id_tipo_moto');
     }
 }

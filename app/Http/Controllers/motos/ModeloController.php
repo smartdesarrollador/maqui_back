@@ -40,7 +40,7 @@ class ModeloController extends Controller
             $validator = Validator::make($request->all(), [
                 'marca_id' => 'required|exists:marcas,id_marca',
                 'nombre' => 'required|string|max:255',
-                'tipo' => 'required|string|max:100',
+                'tipo_moto_id' => 'required|exists:tipo_motos,id_tipo_moto',
                 'cilindrada' => 'required|string|max:50',
                 'imagen' => 'nullable|string'
             ]);
@@ -105,7 +105,7 @@ class ModeloController extends Controller
             $validator = Validator::make($request->all(), [
                 'marca_id' => 'sometimes|exists:marcas,id_marca',
                 'nombre' => 'sometimes|string|max:255',
-                'tipo' => 'sometimes|string|max:100',
+                'tipo_moto_id' => 'sometimes|exists:tipo_motos,id_tipo_moto',
                 'cilindrada' => 'sometimes|string|max:50',
                 'imagen' => 'nullable|string'
             ]);

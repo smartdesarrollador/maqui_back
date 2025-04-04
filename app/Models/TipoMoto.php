@@ -39,4 +39,9 @@ class TipoMoto extends Model
     {
         return $this->hasMany(Moto::class, 'tipo_moto_id', 'id_tipo_moto');
     }
+
+    public function modelos()
+    {
+        return $this->hasMany(Modelo::class, 'tipo_moto_id', 'id_tipo_moto');
+    }
 }

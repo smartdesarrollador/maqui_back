@@ -1,6 +1,6 @@
 class Accesorio extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -43,8 +43,8 @@ class Accesorio extends Model
      */
     public function motos()
     {
-        return $this->belongsToMany(Moto::class, 'accesorio_moto', 
-            'accesorio_id', 'moto_id', 
+        return $this->belongsToMany(Moto::class, 'accesorio_moto',
+            'accesorio_id', 'moto_id',
             'id_accesorio', 'id_moto')
             ->withTimestamps();
     }
@@ -59,11 +59,12 @@ class Accesorio extends Model
             'id_accesorio', 'id_cotizacion')
             ->withTimestamps();
     }
+
 }
 
 class AccesorioMoto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -103,11 +104,12 @@ class AccesorioMoto extends Model
     {
         return $this->belongsTo(Accesorio::class, 'accesorio_id', 'id_accesorio');
     }
+
 }
 
 class ClienteModel extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -187,11 +189,12 @@ class ClienteModel extends Model
             'moto_id'
         );
     }
+
 }
 
 class Cotizacion extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -263,11 +266,12 @@ class Cotizacion extends Model
     {
         return $this->hasOne(Financiamiento::class, 'cotizacion_id', 'id_cotizacion');
     }
+
 }
 
 class CotizacionAccesorio extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -307,11 +311,12 @@ class CotizacionAccesorio extends Model
     {
         return $this->belongsTo(Accesorio::class, 'accesorio_id', 'id_accesorio');
     }
+
 }
 
 class CotizacionRepuesto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -351,11 +356,12 @@ class CotizacionRepuesto extends Model
     {
         return $this->belongsTo(Repuesto::class, 'repuesto_id', 'id_repuesto');
     }
+
 }
 
 class Financiamiento extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -405,11 +411,12 @@ class Financiamiento extends Model
     {
         return $this->belongsTo(ClienteModel::class, 'cliente_id', 'id_cliente');
     }
+
 }
 
 class Marca extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -458,11 +465,12 @@ class Marca extends Model
             'id_modelo'  // Clave local en modelos
         );
     }
+
 }
 
 class Modelo extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -480,7 +488,7 @@ class Modelo extends Model
     protected $fillable = [
         'marca_id',
         'nombre',
-        'tipo',
+        'tipo_moto_id',
         'cilindrada',
         'imagen'
     ];
@@ -505,11 +513,17 @@ class Modelo extends Model
     {
         return $this->hasMany(Moto::class, 'modelo_id', 'id_modelo');
     }
+
+    public function tipoMoto()
+    {
+        return $this->belongsTo(TipoMoto::class, 'tipo_moto_id', 'id_tipo_moto');
+    }
+
 }
 
 class Moto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -616,11 +630,12 @@ class Moto extends Model
     {
         return $this->hasMany(Resena::class, 'moto_id', 'id_moto');
     }
+
 }
 
 class Repuesto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -679,12 +694,12 @@ class Repuesto extends Model
             'id_repuesto', 'id_cotizacion')
             ->withTimestamps();
     }
-}
 
+}
 
 class RepuestoMoto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -724,11 +739,12 @@ class RepuestoMoto extends Model
     {
         return $this->belongsTo(Repuesto::class, 'repuesto_id', 'id_repuesto');
     }
+
 }
 
 class Resena extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -770,11 +786,12 @@ class Resena extends Model
     {
         return $this->belongsTo(Moto::class, 'moto_id', 'id_moto');
     }
+
 }
 
 class TipoAccesorio extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -806,12 +823,12 @@ class TipoAccesorio extends Model
     {
         return $this->hasMany(Accesorio::class, 'tipo_accesorio_id', 'id_tipo_accesorio');
     }
-}
 
+}
 
 class TipoMoto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -843,12 +860,12 @@ class TipoMoto extends Model
     {
         return $this->hasMany(Moto::class, 'tipo_moto_id', 'id_tipo_moto');
     }
-}
 
+}
 
 class TipoRepuesto extends Model
 {
-    use HasFactory;
+use HasFactory;
 
     /**
      * Nombre de la tabla asociada al modelo
@@ -880,4 +897,5 @@ class TipoRepuesto extends Model
     {
         return $this->hasMany(Repuesto::class, 'tipo_repuesto_id', 'id_tipo_repuesto');
     }
+
 }

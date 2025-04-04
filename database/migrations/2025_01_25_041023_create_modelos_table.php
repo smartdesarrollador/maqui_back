@@ -16,7 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger("marca_id")->nullable();
             $table->foreign("marca_id")->references("id_marca")->on("marcas")->onDelete("set null");
             $table->string('nombre')->nullable();
-            $table->string('tipo')->nullable(); // Deportiva, Touring, etc.
+            $table->unsignedBigInteger("tipo_moto_id")->nullable();
+            $table->foreign("tipo_moto_id")->references("id_tipo_moto")->on("tipo_motos")->onDelete("set null");
             $table->integer('cilindrada')->nullable();
             $table->string('imagen')->nullable();
             $table->timestamps();
