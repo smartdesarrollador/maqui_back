@@ -357,11 +357,10 @@ Route::delete('media/{id}', [MedioFileController::class, 'destroy']);
 
 
 // Rutas para el comparador de modelos de motos
-Route::prefix('comparador-motos')->group(function () {
-    Route::get('/modelos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerModelosDisponibles');
-    Route::post('/comparar', 'App\Http\Controllers\motos\ComparadorModelosMotosController@compararModelos');
-    Route::get('/modelo/{id}', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerDetalleModelo');
-    Route::get('/marcas-modelos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerMarcasYModelos');
-    Route::get('/tipos', 'App\Http\Controllers\motos\ComparadorModelosMotosController@obtenerTiposMotos');
-});
+// Rutas para el comparador de motos
+Route::get('comparador-motos/modelos', [ComparadorModelosMotosController::class, 'obtenerModelosDisponibles']);
+Route::post('comparador-motos/comparar', [ComparadorModelosMotosController::class, 'compararModelos']);
+Route::get('comparador-motos/modelo/{id}', [ComparadorModelosMotosController::class, 'obtenerDetalleModelo']);
+Route::get('comparador-motos/marcas-modelos', [ComparadorModelosMotosController::class, 'obtenerMarcasYModelos']);
+Route::get('comparador-motos/tipos', [ComparadorModelosMotosController::class, 'obtenerTiposMotos']);
 

@@ -11,6 +11,7 @@ use App\Models\Marca;
 use App\Models\TipoMoto;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class ComparadorModelosMotosController extends Controller
 {
@@ -64,20 +65,25 @@ class ComparadorModelosMotosController extends Controller
             // Validación de modelos
             $request->validate([
                 'modelos' => 'required|array|min:1|max:3',
-                'modelos.*' => 'required|integer|exists:motos,id_moto'
+                'modelos.*' => 'required|integer|exists:modelos,id_modelo'
             ]);
 
             $modelosIds = $request->input('modelos');
             
             // Obtener información detallada de las motos seleccionadas
             $motos = Moto::with(['modelo.marca', 'tipoMoto'])
-                ->whereIn('id_moto', $modelosIds)
+                ->whereIn('modelo_id', $modelosIds)
+                ->whereIn('id_moto', function($query) {
+                    $query->selectRaw('MIN(id_moto)')
+                        ->from('motos')
+                        ->groupBy('modelo_id');
+                })
                 ->get();
 
             if ($motos->count() === 0) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'No se encontraron motos con los IDs proporcionados'
+                    'message' => 'No se encontraron motos con los modelos proporcionados'
                 ], 404);
             }
 
