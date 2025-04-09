@@ -71,14 +71,19 @@ class ComparadorModelosMotosController extends Controller
             $modelosIds = $request->input('modelos');
             
             // Obtener información detallada de las motos seleccionadas
-            $motos = Moto::with(['modelo.marca', 'tipoMoto'])
-                ->whereIn('modelo_id', $modelosIds)
-                ->whereIn('id_moto', function($query) {
-                    $query->selectRaw('MIN(id_moto)')
-                        ->from('motos')
-                        ->groupBy('modelo_id');
-                })
-                ->get();
+            $motos = collect();
+            
+            // Iteramos sobre los IDs en el orden recibido
+            foreach ($modelosIds as $index => $modeloId) {
+                $moto = Moto::with(['modelo.marca', 'tipoMoto'])
+                    ->where('modelo_id', $modeloId)
+                    ->orderBy('id_moto')
+                    ->first();
+                
+                if ($moto) {
+                    $motos->push($moto);
+                }
+            }
 
             if ($motos->count() === 0) {
                 return response()->json([
