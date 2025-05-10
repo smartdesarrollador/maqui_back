@@ -61,6 +61,7 @@ use App\Http\Controllers\motos\FormularioCotizacionController;
 use App\Http\Controllers\medios\MedioCategoriaController;
 use App\Http\Controllers\medios\MedioFileController;
 use App\Http\Controllers\motos\ComparadorModelosMotosController;
+use App\Http\Controllers\motos\MotoColoresController;
 
 
 /*
@@ -363,4 +364,12 @@ Route::post('comparador-motos/comparar', [ComparadorModelosMotosController::clas
 Route::get('comparador-motos/modelo/{id}', [ComparadorModelosMotosController::class, 'obtenerDetalleModelo']);
 Route::get('comparador-motos/marcas-modelos', [ComparadorModelosMotosController::class, 'obtenerMarcasYModelos']);
 Route::get('comparador-motos/tipos', [ComparadorModelosMotosController::class, 'obtenerTiposMotos']);
+
+// Rutas para colores de motos
+Route::get('moto-colores', [MotoColoresController::class, 'index']);
+Route::get('moto-colores/modelo/{modeloId}', [MotoColoresController::class, 'getColoresPorModelo']);
+Route::get('moto-colores/{id}', [MotoColoresController::class, 'show']);
+Route::post('moto-colores', [MotoColoresController::class, 'store']);
+Route::put('moto-colores/{id}', [MotoColoresController::class, 'update']);
+Route::delete('moto-colores/{id}', [MotoColoresController::class, 'destroy']);
 
