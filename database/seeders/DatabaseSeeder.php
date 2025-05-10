@@ -71,6 +71,7 @@ class DatabaseSeeder extends Seeder
             TipoMotoSeeder::class,
             ModeloSeeder::class,
             motoSeeder::class,
+            MotoColoresSeeder::class,
             TipoAccesorioSeeder::class,
             AccesorioSeeder::class,
             AccesorioMotoSeeder::class,

@@ -39,6 +39,14 @@ $table->timestamps();
             $table->timestamps();
         });
 
+        Schema::create('moto_colores', function (Blueprint $table) {
+            $table->id('id_moto_color');
+            $table->unsignedBigInteger('modelo_id');
+            $table->string('color');
+            $table->string('imagen_color'); // URL o path de la imagen del color específico
+            $table->foreign('modelo_id')->references('id_modelo')->on('modelos')->onDelete('cascade');
+            $table->timestamps();
+        });
 
 Schema::create('tipo_motos', function (Blueprint $table) {
 $table->id('id_tipo_moto');
