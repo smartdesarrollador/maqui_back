@@ -87,7 +87,7 @@ class MotoColoresSeeder extends Seeder
         // Colores para CHEYENNE 200 (modelo_id: 5)
         DB::table('moto_colores')->insert([
             'modelo_id' => 3,
-            'color' => 'rojo',
+            'color' => 'rosado',
             'imagen_color' => 'assets/imagen/motos/MM_CALI_ROSADO_2.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
@@ -176,7 +176,7 @@ class MotoColoresSeeder extends Seeder
 
         DB::table('moto_colores')->insert([
             'modelo_id' => 9,
-            'color' => 'verde',
+            'color' => 'azul',
             'imagen_color' => 'assets/imagen/motos/IBIZA-AZUL-LATERAL.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
@@ -352,7 +352,7 @@ class MotoColoresSeeder extends Seeder
 
         DB::table('moto_colores')->insert([
             'modelo_id' => 16,
-            'color' => 'rojo',
+            'color' => 'rosado',
             'imagen_color' => 'assets/imagen/motos/SEUL-ROSADA-LADO.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
@@ -400,7 +400,7 @@ class MotoColoresSeeder extends Seeder
 
         DB::table('moto_colores')->insert([
             'modelo_id' => 19,
-            'color' => 'negro',
+            'color' => 'plata',
             'imagen_color' => 'assets/imagen/motos/NEGRO COSTADO.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
