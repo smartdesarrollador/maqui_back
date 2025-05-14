@@ -317,7 +317,9 @@ class MotoController extends Controller
                 'cargador_usb' => 'boolean',
                 'luz_led' => 'boolean',
                 'alarma' => 'boolean',
-                'bluetooth' => 'boolean'
+                'bluetooth' => 'boolean',
+                'colores' => 'nullable|string',
+                'colores_eliminados' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
@@ -344,7 +346,7 @@ class MotoController extends Controller
 
             // Procesar la imagen si se proporciona una nueva
             if ($request->hasFile('imagen')) {
-                Log::info('Procesando nueva imagen:', [
+                Log::info('Procesando nueva imagen principal:', [
                     'nombre_original' => $request->file('imagen')->getClientOriginalName(),
                     'mime_type' => $request->file('imagen')->getMimeType(),
                     'tamaño' => $request->file('imagen')->getSize()
@@ -371,6 +373,99 @@ class MotoController extends Controller
                 $data['imagen'] = 'assets/imagen/motos/' . $imageName;
             }
 
+            // Procesar colores si se proporcionan
+            if ($request->has('colores') && $request->colores) {
+                $colores = json_decode($request->colores, true);
+                Log::info('Procesando colores:', $colores);
+
+                if (is_array($colores)) {
+                    foreach ($colores as $colorData) {
+                        $fileIndex = $colorData['fileIndex'];
+                        $colorName = $colorData['color'];
+                        $fileKey = "color_imagen_{$fileIndex}";
+                        $isNew = $colorData['isNew'];
+                        $colorId = $colorData['id_moto_color'];
+
+                        // Si es un color nuevo o se está actualizando la imagen
+                        if ($request->hasFile($fileKey)) {
+                            $colorImage = $request->file($fileKey);
+                            $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
+                            
+                            // Crear directorio para imágenes de colores si no existe
+                            $colorPath = public_path('assets/motos/colores');
+                            if (!file_exists($colorPath)) {
+                                mkdir($colorPath, 0777, true);
+                            }
+                            
+                            // Mover la imagen de color al directorio
+                            $colorImage->move($colorPath, $colorImageName);
+                            $imagenColor = 'assets/imagen/motos/colores/' . $colorImageName;
+                            
+                            // Si es un nuevo color, crear un nuevo registro
+                            if ($isNew) {
+                                DB::table('moto_colores')->insert([
+                                    'modelo_id' => $data['modelo_id'],
+                                    'color' => $colorName,
+                                    'imagen_color' => $imagenColor,
+                                    'created_at' => now(),
+                                    'updated_at' => now()
+                                ]);
+                                Log::info("Nuevo color '{$colorName}' agregado");
+                            } 
+                            // Si es un color existente, actualizar el registro
+                            else {
+                                DB::table('moto_colores')
+                                    ->where('id_moto_color', $colorId)
+                                    ->update([
+                                        'color' => $colorName,
+                                        'imagen_color' => $imagenColor,
+                                        'updated_at' => now()
+                                    ]);
+                                Log::info("Color existente '{$colorName}' actualizado con nueva imagen");
+                            }
+                        }
+                        // Si no hay nueva imagen pero es un color existente, solo actualizar el nombre
+                        else if (!$isNew && $colorId) {
+                            DB::table('moto_colores')
+                                ->where('id_moto_color', $colorId)
+                                ->update([
+                                    'color' => $colorName,
+                                    'updated_at' => now()
+                                ]);
+                            Log::info("Color existente '{$colorName}' actualizado");
+                        }
+                    }
+                }
+            }
+
+            // Procesar colores eliminados si se proporcionan
+            if ($request->has('colores_eliminados') && $request->colores_eliminados) {
+                $coloresEliminados = json_decode($request->colores_eliminados, true);
+                Log::info('Procesando colores eliminados:', $coloresEliminados);
+
+                if (is_array($coloresEliminados) && count($coloresEliminados) > 0) {
+                    // Primero obtenemos las imágenes para eliminarlas del sistema de archivos
+                    $coloresToDelete = DB::table('moto_colores')
+                        ->whereIn('id_moto_color', $coloresEliminados)
+                        ->get();
+                    
+                    foreach ($coloresToDelete as $color) {
+                        // Eliminar la imagen si existe
+                        if ($color->imagen_color && file_exists(public_path($color->imagen_color))) {
+                            unlink(public_path($color->imagen_color));
+                        }
+                    }
+
+                    // Eliminar los registros de la base de datos
+                    DB::table('moto_colores')
+                        ->whereIn('id_moto_color', $coloresEliminados)
+                        ->delete();
+                    
+                    Log::info('Colores eliminados correctamente');
+                }
+            }
+
+            // Actualizar la moto con los datos restantes
             $moto->update($data);
 
             DB::commit();
