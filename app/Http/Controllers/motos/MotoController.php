@@ -161,7 +161,7 @@ class MotoController extends Controller
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 
                 // Crear el directorio si no existe
-                $path = public_path('assets/motos');
+                $path = public_path('assets/imagen/motos');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
@@ -194,7 +194,7 @@ class MotoController extends Controller
                             $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
                             
                             // Crear directorio para imágenes de colores si no existe
-                            $colorPath = public_path('assets/motos/colores');
+                            $colorPath = public_path('assets/imagen/motos/colores');
                             if (!file_exists($colorPath)) {
                                 mkdir($colorPath, 0777, true);
                             }
@@ -356,7 +356,7 @@ class MotoController extends Controller
                 $imageName = time() . '_' . $image->getClientOriginalName();
                 
                 // Crear el directorio si no existe
-                $path = public_path('assets/motos');
+                $path = public_path('assets/imagen/motos');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
@@ -392,7 +392,7 @@ class MotoController extends Controller
                             $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
                             
                             // Crear directorio para imágenes de colores si no existe
-                            $colorPath = public_path('assets/motos/colores');
+                            $colorPath = public_path('assets/imagen/motos/colores');
                             if (!file_exists($colorPath)) {
                                 mkdir($colorPath, 0777, true);
                             }
