@@ -128,7 +128,8 @@ class MotoController extends Controller
                 'cargador_usb' => 'boolean',
                 'luz_led' => 'boolean',
                 'alarma' => 'boolean',
-                'bluetooth' => 'boolean'
+                'bluetooth' => 'boolean',
+                'colores_adicionales' => 'nullable|string',
             ]);
 
             if ($validator->fails()) {
@@ -149,8 +150,9 @@ class MotoController extends Controller
 
             DB::beginTransaction();
             
+            // Procesar la imagen principal
             if ($request->hasFile('imagen')) {
-                Log::info('Procesando imagen:', [
+                Log::info('Procesando imagen principal:', [
                     'nombre_original' => $request->file('imagen')->getClientOriginalName(),
                     'mime_type' => $request->file('imagen')->getMimeType(),
                     'tamaño' => $request->file('imagen')->getSize()
@@ -173,7 +175,51 @@ class MotoController extends Controller
                 Log::error('No se encontró archivo de imagen en la request');
             }
             
+            // Crear la moto
             $moto = Moto::create($data);
+            
+            // Procesar colores adicionales si existen
+            if ($request->has('colores_adicionales') && !empty($request->colores_adicionales)) {
+                $coloresAdicionales = json_decode($request->colores_adicionales, true);
+                Log::info('Procesando colores adicionales:', $coloresAdicionales);
+                
+                if (is_array($coloresAdicionales)) {
+                    foreach ($coloresAdicionales as $colorData) {
+                        $fileIndex = $colorData['fileIndex'];
+                        $colorName = $colorData['color'];
+                        $fileKey = "color_imagen_{$fileIndex}";
+                        
+                        if ($request->hasFile($fileKey)) {
+                            $colorImage = $request->file($fileKey);
+                            $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
+                            
+                            // Crear directorio para imágenes de colores si no existe
+                            $colorPath = public_path('assets/motos/colores');
+                            if (!file_exists($colorPath)) {
+                                mkdir($colorPath, 0777, true);
+                            }
+                            
+                            // Mover la imagen de color al directorio
+                            $colorImage->move($colorPath, $colorImageName);
+                            
+                            // Guardar el color en la tabla moto_colores
+                            DB::table('moto_colores')->insert([
+                                'modelo_id' => $data['modelo_id'],
+                                'color' => $colorName,
+                                'imagen_color' => 'assets/imagen/motos/colores/' . $colorImageName,
+                                'created_at' => now(),
+                                'updated_at' => now()
+                            ]);
+                            
+                            Log::info("Color adicional '{$colorName}' guardado con éxito");
+                        } else {
+                            Log::warning("No se encontró imagen para el color '{$colorName}' con índice {$fileIndex}");
+                        }
+                    }
+                } else {
+                    Log::warning('El formato de colores_adicionales no es válido');
+                }
+            }
             
             DB::commit();
 
