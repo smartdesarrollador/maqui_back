@@ -182,13 +182,13 @@ class MotoColoresSeeder extends Seeder
             'updated_at' => $horaActual,
         ]);
 
-        DB::table('moto_colores')->insert([
+        /* DB::table('moto_colores')->insert([
             'modelo_id' => 9,
             'color' => 'gris',
             'imagen_color' => 'assets/imagen/motos/IBIZA-GRIS-LATERAL.png',
             'created_at' => $horaActual,
             'updated_at' => $horaActual,
-        ]);
+        ]); */
 
         DB::table('moto_colores')->insert([
             'modelo_id' => 9,
