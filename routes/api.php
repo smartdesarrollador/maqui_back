@@ -281,9 +281,9 @@ Route::post('modelos', [ModeloController::class, 'store']);
 Route::put('modelos/{id}', [ModeloController::class, 'update']);
 Route::delete('modelos/{id}', [ModeloController::class, 'destroy']);
 
-// Rutas para cotizaciones
+// Rutas para cotizaciones (admin/gestión)
 Route::get('cotizaciones', [CotizacionController::class, 'index']);
-Route::post('cotizaciones', [CotizacionController::class, 'store']);
+// Route::post('cotizaciones', [CotizacionController::class, 'store']); // Comentado para evitar conflicto
 Route::get('cotizaciones/{id}', [CotizacionController::class, 'show']);
 Route::put('cotizaciones/{id}', [CotizacionController::class, 'update']);
 Route::delete('cotizaciones/{id}', [CotizacionController::class, 'destroy']);
@@ -340,6 +340,7 @@ Route::prefix('motos-por-tipo')->group(function () {
     Route::get('/{tipo}', [MotosByTipoController::class, 'index']);
 });
 
+// Ruta para formulario público de cotizaciones
 Route::post('/cotizaciones', [FormularioCotizacionController::class, 'store']);
 
 // Rutas para categorías de archivos multimedia
