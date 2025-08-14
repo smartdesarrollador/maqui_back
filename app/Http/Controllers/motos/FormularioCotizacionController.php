@@ -8,10 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\ClienteModel;
 use App\Models\Cotizacion;
 use App\Models\Moto;
+use App\Mail\CotizacionCreada;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class FormularioCotizacionController extends Controller
@@ -22,6 +24,9 @@ class FormularioCotizacionController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
+            Log::info('=== INICIANDO PROCESO DE COTIZACIÓN ===');
+            Log::info('Datos recibidos:', $request->all());
+            
             // Validar los datos del formulario
             $validator = Validator::make($request->all(), [
                 'tipo_moto' => 'required|string',
@@ -63,11 +68,16 @@ class FormularioCotizacionController extends Controller
                     'distrito' => $request->distrito,
                 ]
             );
+            
+            Log::info('Cliente procesado', ['cliente_id' => $cliente->id_cliente, 'email' => $cliente->email]);
 
-            // Buscar la moto por modelo
-            $moto = Moto::whereHas('modelo', function ($query) use ($request) {
-                $query->where('nombre', $request->modelo);
-            })->firstOrFail();
+            // Buscar la moto por modelo (con relaciones necesarias para el email)
+            $moto = Moto::with(['modelo.marca'])
+                ->whereHas('modelo', function ($query) use ($request) {
+                    $query->where('nombre', $request->modelo);
+                })->firstOrFail();
+                
+            Log::info('Moto encontrada', ['moto_id' => $moto->id_moto, 'modelo' => $request->modelo]);
 
             // Crear la cotización
             $cotizacion = Cotizacion::create([
@@ -76,16 +86,40 @@ class FormularioCotizacionController extends Controller
                 'precio_total' => $moto->precio_base,
                 'estado' => 'pendiente'
             ]);
+            
+            Log::info('Cotización creada', ['cotizacion_id' => $cotizacion->id_cotizacion]);
 
             DB::commit();
+            
+            Log::info('Transacción confirmada (commit exitoso)');
+
+            // Enviar correo de confirmación al cliente DESPUÉS del commit
+            $emailEnviado = false;
+            try {
+                Mail::to($cliente->email)->send(new CotizacionCreada($cliente, $moto, $cotizacion));
+                Log::info('Correo de cotización enviado exitosamente a: ' . $cliente->email);
+                $emailEnviado = true;
+            } catch (\Exception $mailException) {
+                // Log del error pero no fallar la cotización ya que ya está guardada
+                Log::error('Error al enviar correo de cotización: ' . $mailException->getMessage());
+                $emailEnviado = false;
+            }
+
+            $mensaje = 'Cotización creada exitosamente.';
+            if ($emailEnviado) {
+                $mensaje .= ' Se ha enviado un correo de confirmación a tu email.';
+            } else {
+                $mensaje .= ' No se pudo enviar el correo de confirmación, pero tu cotización fue registrada.';
+            }
 
             return response()->json([
                 'status' => 'success',
-                'message' => 'Cotización creada exitosamente',
+                'message' => $mensaje,
                 'data' => [
                     'cotizacion_id' => $cotizacion->id_cotizacion,
                     'cliente' => $cliente,
-                    'moto' => $moto
+                    'moto' => $moto,
+                    'email_enviado' => $emailEnviado
                 ]
             ], 201);
 
