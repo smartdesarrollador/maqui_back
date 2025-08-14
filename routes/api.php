@@ -58,6 +58,7 @@ use App\Http\Controllers\motos\RepuestoController;
 use App\Http\Controllers\motos\FinanciacionController;
 use App\Http\Controllers\motos\MotosByTipoController;
 use App\Http\Controllers\motos\FormularioCotizacionController;
+use App\Http\Controllers\motos\FormularioFinanciacionController;
 use App\Http\Controllers\medios\MedioCategoriaController;
 use App\Http\Controllers\medios\MedioFileController;
 use App\Http\Controllers\motos\ComparadorModelosMotosController;
@@ -342,6 +343,9 @@ Route::prefix('motos-por-tipo')->group(function () {
 
 // Ruta para formulario público de cotizaciones
 Route::post('/cotizaciones', [FormularioCotizacionController::class, 'store']);
+
+// Ruta para formulario público de financiamientos
+Route::post('/financiamientos', [FormularioFinanciacionController::class, 'store']);
 
 // Rutas para categorías de archivos multimedia
 Route::get('/media-categorias', [MedioCategoriaController::class, 'index']);
