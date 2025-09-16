@@ -29,7 +29,14 @@ class MotosByTipoController extends Controller
                 ->select('motos.*');
 
             // Filtrar por tipo de moto si se especifica
-            if ($tipoMoto) {
+            // Priorizar el parámetro de query 'tipo' (ID) sobre el parámetro de ruta (nombre)
+            $tipoId = $request->query('tipo');
+
+            if ($tipoId) {
+                // Filtrar por ID del tipo de moto
+                $query->where('tipo_moto_id', $tipoId);
+            } elseif ($tipoMoto) {
+                // Filtrar por nombre del tipo de moto (para compatibilidad)
                 $query->whereHas('tipoMoto', function (Builder $query) use ($tipoMoto) {
                     $query->where('nombre', $tipoMoto);
                 });
