@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_tipo_moto');
             $table->string('nombre');
             $table->string('descripcion');
+            $table->string('imagen')->nullable();
             $table->timestamps();
         });
     }

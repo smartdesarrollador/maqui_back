@@ -24,7 +24,8 @@ class TipoMoto extends Model
      */
     protected $fillable = [
         'nombre',
-        'descripcion'
+        'descripcion',
+        'imagen',
     ];
 
     /**

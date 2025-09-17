@@ -89,7 +89,7 @@ class MotosByTipoController extends Controller
     public function getTipos(): JsonResponse
     {
         try {
-            $tipos = TipoMoto::select('id_tipo_moto', 'nombre', 'descripcion')
+            $tipos = TipoMoto::select('id_tipo_moto', 'nombre', 'descripcion', 'imagen')
                 ->withCount('motos')
                 ->orderBy('nombre')
                 ->get();
