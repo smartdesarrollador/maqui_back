@@ -4,6 +4,7 @@ namespace App\Http\Controllers\motos;
 
 use App\Http\Controllers\Controller;
 use App\Models\Moto;
+use App\Models\Modelo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -102,7 +103,6 @@ class MotoController extends Controller
             
             $validator = Validator::make($request->all(), [
                 'modelo_id' => 'required|exists:modelos,id_modelo|unique:motos,modelo_id',
-                'tipo_moto_id' => 'required|exists:tipo_motos,id_tipo_moto',
                 'año' => 'required|integer|min:1900',
                 'precio_base' => 'required|numeric|min:0',
                 'color' => 'required|string|max:255',
@@ -141,8 +141,12 @@ class MotoController extends Controller
                 ], 422);
             }
 
+            // Derivar tipo_moto_id desde el modelo seleccionado
+            $modelo = Modelo::findOrFail($request->modelo_id);
+
             // Asegurarse de que los campos booleanos se conviertan a 0 o 1
             $data = $request->all();
+            $data['tipo_moto_id'] = $modelo->tipo_moto_id;
             $booleanFields = ['cargador_usb', 'luz_led', 'alarma', 'bluetooth'];
             foreach ($booleanFields as $field) {
                 $data[$field] = isset($data[$field]) && $data[$field] ? 1 : 0;
@@ -284,7 +288,6 @@ class MotoController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'modelo_id' => 'exists:modelos,id_modelo',
-                'tipo_moto_id' => 'exists:tipo_motos,id_tipo_moto',
                 'año' => 'integer',
                 'precio_base' => 'numeric',
                 'color' => 'string',
@@ -328,6 +331,12 @@ class MotoController extends Controller
 
             $moto = Moto::findOrFail($id);
             $data = $request->all();
+
+            // Si cambia el modelo, derivar tipo_moto_id del nuevo modelo
+            if ($request->has('modelo_id')) {
+                $modelo = Modelo::findOrFail($request->modelo_id);
+                $data['tipo_moto_id'] = $modelo->tipo_moto_id;
+            }
 
             // Convertir campos booleanos
             $booleanFields = ['cargador_usb', 'luz_led', 'alarma', 'bluetooth'];
