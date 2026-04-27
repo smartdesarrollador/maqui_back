@@ -21,7 +21,7 @@ class CotizacionController extends Controller
     public function index(Request $request)
     {
         try {
-            $query = Cotizacion::with(['cliente', 'moto', 'accesorios', 'repuestos', 'financiamiento']);
+            $query = Cotizacion::with(['cliente', 'moto.modelo.marca', 'moto.tipoMoto', 'accesorios', 'repuestos', 'financiamiento']);
 
             // Búsqueda por estado
             if ($request->has('estado')) {
@@ -151,7 +151,7 @@ class CotizacionController extends Controller
     public function show($id)
     {
         try {
-            $cotizacion = Cotizacion::with(['cliente', 'moto', 'accesorios', 'repuestos', 'financiamiento'])
+            $cotizacion = Cotizacion::with(['cliente', 'moto.modelo.marca', 'moto.tipoMoto', 'accesorios', 'repuestos', 'financiamiento'])
                 ->findOrFail($id);
 
             return response()->json([

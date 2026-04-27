@@ -85,7 +85,8 @@ class FormularioCotizacionController extends Controller
                 'cliente_id' => $cliente->id_cliente,
                 'moto_id' => $moto->id_moto,
                 'precio_total' => $moto->precio_base,
-                'estado' => 'pendiente'
+                'estado' => 'pendiente',
+                'tiempo_compra' => $request->tiempo_compra,
             ]);
             
             Log::info('Cotización creada', ['cotizacion_id' => $cotizacion->id_cotizacion]);

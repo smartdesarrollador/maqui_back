@@ -26,7 +26,8 @@ class Cotizacion extends Model
         'cliente_id',
         'moto_id',
         'precio_total',
-        'estado'
+        'estado',
+        'tiempo_compra'
     ];
 
     /**
