@@ -35,6 +35,7 @@ class CotizacionCreada extends Mailable
     {
         return new Envelope(
             from: new Address(config('mail.from.address', 'noreply@maquimotora.com'), 'Maquimotora'),
+            replyTo: [new Address('ventas@maquimotora.com', 'Maquimotora')],
             subject: 'Confirmación de tu Cotización - Maquimotora',
         );
     }
