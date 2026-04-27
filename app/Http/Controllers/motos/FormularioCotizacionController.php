@@ -9,6 +9,7 @@ use App\Models\ClienteModel;
 use App\Models\Cotizacion;
 use App\Models\Moto;
 use App\Mail\CotizacionCreada;
+use App\Mail\CotizacionNotificacionVentas;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -93,14 +94,19 @@ class FormularioCotizacionController extends Controller
             
             Log::info('Transacción confirmada (commit exitoso)');
 
-            // Enviar correo de confirmación al cliente DESPUÉS del commit
+            // Enviar correos DESPUÉS del commit
             $emailEnviado = false;
             try {
+                // Correo de confirmación al cliente
                 Mail::to($cliente->email)->send(new CotizacionCreada($cliente, $moto, $cotizacion));
-                Log::info('Correo de cotización enviado exitosamente a: ' . $cliente->email);
+                Log::info('Correo de confirmación enviado a cliente: ' . $cliente->email);
+
+                // Notificación interna al equipo de ventas
+                Mail::to('ventas@maquimotora.com')->send(new CotizacionNotificacionVentas($cliente, $moto, $cotizacion));
+                Log::info('Notificación de cotización enviada a ventas@maquimotora.com');
+
                 $emailEnviado = true;
             } catch (\Exception $mailException) {
-                // Log del error pero no fallar la cotización ya que ya está guardada
                 Log::error('Error al enviar correo de cotización: ' . $mailException->getMessage());
                 $emailEnviado = false;
             }
