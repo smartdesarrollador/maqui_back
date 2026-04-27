@@ -101,7 +101,7 @@ class MotoController extends Controller
             Log::info('Recibiendo request para crear moto:', $request->all());
             
             $validator = Validator::make($request->all(), [
-                'modelo_id' => 'required|exists:modelos,id_modelo',
+                'modelo_id' => 'required|exists:modelos,id_modelo|unique:motos,modelo_id',
                 'tipo_moto_id' => 'required|exists:tipo_motos,id_tipo_moto',
                 'año' => 'required|integer|min:1900',
                 'precio_base' => 'required|numeric|min:0',
@@ -159,17 +159,13 @@ class MotoController extends Controller
                 ]);
                 $image = $request->file('imagen');
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                
-                // Crear el directorio si no existe
-                $path = public_path('assets/imagen/motos');
+
+                $path = config('myconfig.url_upload_motos');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
-                
-                // Mover la imagen al directorio
+
                 $image->move($path, $imageName);
-                
-                // Guardar la ruta relativa en la base de datos
                 $data['imagen'] = 'assets/imagen/motos/' . $imageName;
             } else {
                 Log::error('No se encontró archivo de imagen en la request');
@@ -192,17 +188,14 @@ class MotoController extends Controller
                         if ($request->hasFile($fileKey)) {
                             $colorImage = $request->file($fileKey);
                             $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
-                            
-                            // Crear directorio para imágenes de colores si no existe
-                            $colorPath = public_path('assets/imagen/motos/colores');
+
+                            $colorPath = config('myconfig.url_upload_motos_colores');
                             if (!file_exists($colorPath)) {
                                 mkdir($colorPath, 0777, true);
                             }
-                            
-                            // Mover la imagen de color al directorio
+
                             $colorImage->move($colorPath, $colorImageName);
-                            
-                            // Guardar el color en la tabla moto_colores
+
                             DB::table('moto_colores')->insert([
                                 'modelo_id' => $data['modelo_id'],
                                 'color' => $colorName,
@@ -354,19 +347,16 @@ class MotoController extends Controller
 
                 $image = $request->file('imagen');
                 $imageName = time() . '_' . $image->getClientOriginalName();
-                
-                // Crear el directorio si no existe
-                $path = public_path('assets/imagen/motos');
+
+                $path = config('myconfig.url_upload_motos');
                 if (!file_exists($path)) {
                     mkdir($path, 0777, true);
                 }
-                
-                // Eliminar la imagen anterior si existe
-                if ($moto->imagen && file_exists(public_path($moto->imagen))) {
-                    unlink(public_path($moto->imagen));
+
+                if ($moto->imagen && file_exists($path . '/' . basename($moto->imagen))) {
+                    unlink($path . '/' . basename($moto->imagen));
                 }
-                
-                // Mover la nueva imagen al directorio
+
                 $image->move($path, $imageName);
                 
                 // Actualizar la ruta de la imagen en los datos
@@ -390,14 +380,12 @@ class MotoController extends Controller
                         if ($request->hasFile($fileKey)) {
                             $colorImage = $request->file($fileKey);
                             $colorImageName = time() . '_color_' . $fileIndex . '_' . $colorImage->getClientOriginalName();
-                            
-                            // Crear directorio para imágenes de colores si no existe
-                            $colorPath = public_path('assets/imagen/motos/colores');
+
+                            $colorPath = config('myconfig.url_upload_motos_colores');
                             if (!file_exists($colorPath)) {
                                 mkdir($colorPath, 0777, true);
                             }
-                            
-                            // Mover la imagen de color al directorio
+
                             $colorImage->move($colorPath, $colorImageName);
                             $imagenColor = 'assets/imagen/motos/colores/' . $colorImageName;
                             
