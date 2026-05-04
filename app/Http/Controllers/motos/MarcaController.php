@@ -54,7 +54,12 @@ class MarcaController extends Controller
                 ], 422);
             }
 
-            $marca = Marca::create($validator->validated());
+            $data = $validator->validated();
+            if (!empty($data['fundacion'])) {
+                $data['fundacion'] = date('Y', strtotime($data['fundacion']));
+            }
+
+            $marca = Marca::create($data);
 
             return response()->json([
                 'status' => true,
@@ -131,7 +136,12 @@ class MarcaController extends Controller
                 ], 422);
             }
 
-            $marca->update($validator->validated());
+            $data = $validator->validated();
+            if (!empty($data['fundacion'])) {
+                $data['fundacion'] = date('Y', strtotime($data['fundacion']));
+            }
+
+            $marca->update($data);
 
             return response()->json([
                 'status' => true,

@@ -19,8 +19,12 @@ return [
 
     'allowed_methods' => ['*'],
 
-    /* 'allowed_origins' => ['https://www.iatecdigital.com', 'https://iatecdigital.com'], */
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [
+        'https://maquimotora.com',
+        'https://www.maquimotora.com',
+        'https://admin.maquimotora.com',
+        'https://credi.maquimotora.com',
+    ],
 
     'allowed_origins_patterns' => [],
 
