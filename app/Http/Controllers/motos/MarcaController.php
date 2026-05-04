@@ -43,7 +43,7 @@ class MarcaController extends Controller
                 'nombre' => 'required|string|max:255|unique:marcas,nombre',
                 'origen' => 'required|string|max:255',
                 'fundacion' => 'required|date',
-                'logo' => 'required|string'
+                'logo' => 'nullable|string'
             ]);
 
             if ($validator->fails()) {
@@ -125,7 +125,7 @@ class MarcaController extends Controller
                 'nombre' => 'sometimes|required|string|max:255|unique:marcas,nombre,' . $id . ',id_marca',
                 'origen' => 'sometimes|required|string|max:255',
                 'fundacion' => 'sometimes|required|date',
-                'logo' => 'sometimes|required|string'
+                'logo' => 'sometimes|nullable|string'
             ]);
 
             if ($validator->fails()) {
